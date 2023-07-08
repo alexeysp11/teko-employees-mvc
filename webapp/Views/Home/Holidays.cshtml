@@ -1,0 +1,118 @@
+@model IEnumerable<Holiday>
+@{
+    ViewData["Title"] = "Holidays Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Holidays</h1>
+    <label>Filter</label>
+    <form method="post" asp-controller="Home" asp-action="FilterHolidays" role="post"> 
+        <label>FIO: </label>
+        <input type="text" placeholder="Enter FIO" name="fio">
+        <label>Age: </label>
+        <input type="text" placeholder="Enter age" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="age">
+        <label>Gender: </label>
+        <select name="gender">
+            <option></option>
+            <option>Male</option>
+            <option>Female</option>
+        </select>
+        <label>Job title: </label>
+        <select name="jobTitle">
+            <option></option>
+            <option>Director</option>
+            <option>HR Manager</option>
+        </select>
+        <br>
+
+        <label>Current user</label>
+        <br>
+        <label>FIO: </label>
+        <input type="text" placeholder="Enter FIO" name="currentFio">
+        <label>Age: </label>
+        <input type="text" placeholder="Enter age" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="currentAge">
+        <label>Gender: </label>
+        <select name="currentGender">
+            <option></option>
+            <option>Male</option>
+            <option>Female</option>
+        </select>
+        <label>Job title: </label>
+        <select name="currentJobTitle">
+            <option></option>
+            <option>Director</option>
+            <option>HR Manager</option>
+        </select>
+        <br>
+        <label>Filter options: </label>
+        <select name="filterOptions">
+            <option>Find all</option>
+            <option>Find only intersections</option>
+        </select>
+        <input type="submit" value="Find" class="btn btn-primary" />
+    </form>
+</div>
+
+<label>Filters: @TempData["filterInfoHolidays"]</label>
+<br>
+<label>Current user: @TempData["userInfoHolidays"]</label>
+<br>
+<label>Filter options: </label>
+
+@if (Model == null)
+{
+    <label>Users are not generated yet...</label>
+}
+else
+{
+    <table class="table table-bordered table-striped" style="width: 100%">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Gender
+                </th>
+                <th>
+                    Job title
+                </th>
+                <th>
+                    Age
+                </th>
+                <th>
+                    Begin date
+                </th>
+                <th>
+                    End date
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                var age = System.DateTime.Now.Year - obj.User.BirthDate.Year;
+                <tr>
+                    <td>
+                        @obj.User.FIO
+                    </td>
+                    <td>
+                        @obj.User.Gender
+                    </td>
+                    <td>
+                        @obj.User.JobTitle
+                    </td>
+                    <td>
+                        @age
+                    </td>
+                    <td>
+                        @obj.BeginDate.ToString("dd.MM.yyyy")
+                    </td>
+                    <td>
+                        @obj.EndDate.ToString("dd.MM.yyyy")
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
