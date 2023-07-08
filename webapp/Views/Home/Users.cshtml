@@ -1,6 +1,8 @@
 @model IEnumerable<User>
 @{
     ViewData["Title"] = "Users";
+    var jobTitles = System.Enum.GetValues(typeof(TekoEmployeesMvc.Models.JobTitle)); 
+    var departments = System.Enum.GetValues(typeof(TekoEmployeesMvc.Models.Department)); 
 }
 
 <div class="text-center">
@@ -19,8 +21,18 @@
         <label>Job title: </label>
         <select name="jobTitle">
             <option></option>
-            <option>Director</option>
-            <option>HR Manager</option>
+            @foreach (var obj in jobTitles) 
+            {
+                <option>@obj</option>
+            }
+        </select>
+        <label>Department: </label>
+        <select name="jobTitle">
+            <option></option>
+            @foreach (var obj in departments) 
+            {
+                <option>@obj</option>
+            }
         </select>
         <input type="submit" value="Find" class="btn btn-primary" />
     </form>

@@ -10,9 +10,10 @@ public class HomeController : Controller
     private readonly IUnitOfWork _unitOfWork; 
     private readonly string UsersUidStr = "usersUid"; 
     private readonly string HolidaysUidStr = "holidaysUid"; 
-    private readonly string FilterInfoHolidaysStr = "filterInfoHolidays"; 
     private readonly string FilterInfoUsersStr = "filterInfoUsers"; 
+    private readonly string FilterInfoHolidaysStr = "filterInfoHolidays"; 
     private readonly string UserInfoHolidaysStr = "userInfoHolidays"; 
+    private readonly string FilterOptionsHolidaysStr = "filterOptionsHolidays"; 
 
     public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
     {
@@ -55,6 +56,8 @@ public class HomeController : Controller
             }
         }
         TempData[FilterInfoHolidaysStr] = "No filters applied"; 
+        TempData[UserInfoHolidaysStr] = "No filters applied"; 
+        TempData[FilterOptionsHolidaysStr] = "No filters applied"; 
         var holdays = _unitOfWork.GetHolidays(); 
         return View(holdays);
     }
@@ -99,7 +102,8 @@ public class HomeController : Controller
         // Store info about filtering 
         TempData[FilterInfoHolidaysStr] = $"fio: '{fio}', gender: '{gender}', jobTitle: '{jobTitle}'"; 
         TempData[UserInfoHolidaysStr] = $"currentFio: '{currentFio}', currentGender: '{currentGender}', currentJobTitle: '{currentJobTitle}'"; 
-        
+        TempData[FilterOptionsHolidaysStr] = filterOptions; 
+
         return RedirectToAction("Holidays");
     }
 

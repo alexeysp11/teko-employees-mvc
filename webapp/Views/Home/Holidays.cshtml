@@ -1,6 +1,8 @@
 @model IEnumerable<Holiday>
 @{
     ViewData["Title"] = "Holidays Page";
+    var jobTitles = System.Enum.GetValues(typeof(TekoEmployeesMvc.Models.JobTitle)); 
+    var departments = System.Enum.GetValues(typeof(TekoEmployeesMvc.Models.Department)); 
 }
 
 <div class="text-center">
@@ -20,8 +22,18 @@
         <label>Job title: </label>
         <select name="jobTitle">
             <option></option>
-            <option>Director</option>
-            <option>HR Manager</option>
+            @foreach (var obj in jobTitles) 
+            {
+                <option>@obj</option>
+            }
+        </select>
+        <label>Department: </label>
+        <select name="jobTitle">
+            <option></option>
+            @foreach (var obj in departments) 
+            {
+                <option>@obj</option>
+            }
         </select>
         <br>
 
@@ -40,14 +52,25 @@
         <label>Job title: </label>
         <select name="currentJobTitle">
             <option></option>
-            <option>Director</option>
-            <option>HR Manager</option>
+            @foreach (var obj in jobTitles) 
+            {
+                <option>@obj</option>
+            }
+        </select>
+        <label>Department: </label>
+        <select name="jobTitle">
+            <option></option>
+            @foreach (var obj in departments) 
+            {
+                <option>@obj</option>
+            }
         </select>
         <br>
         <label>Filter options: </label>
         <select name="filterOptions">
             <option>Find all</option>
-            <option>Find only intersections</option>
+            <option>Show intersections</option>
+            <option>Exclude intersections</option>
         </select>
         <input type="submit" value="Find" class="btn btn-primary" />
     </form>
@@ -57,7 +80,7 @@
 <br>
 <label>Current user: @TempData["userInfoHolidays"]</label>
 <br>
-<label>Filter options: </label>
+<label>Filter options: @TempData["filterOptionsHolidays"]</label>
 
 @if (Model == null)
 {
