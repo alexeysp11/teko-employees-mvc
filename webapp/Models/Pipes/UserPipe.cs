@@ -64,7 +64,7 @@ public class UserPipe : AbstractPipe
     }
     public override void Handle(PipeResult result)
     {
-        result.Users = GenerateUsers(result.UserQty); 
+        result.Users = GenerateUsers(result.PipeParams.UserQty); 
         _function(result); 
     }
 }

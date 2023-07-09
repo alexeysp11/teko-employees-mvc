@@ -47,7 +47,7 @@ public class HolidayPipe : AbstractPipe
     }
     public override void Handle(PipeResult result)
     {
-        result.Holidays = GenerateHolidays(result.Users, result.HolidayIntervals); 
+        result.Holidays = GenerateHolidays(result.Users, result.PipeParams.HolidayIntervals); 
         _function(result); 
     }
 }

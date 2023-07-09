@@ -15,8 +15,6 @@ public class UnitOfWork : IUnitOfWork
     // 3) Implement storing data in database. 
     // 4) Test the class.
 
-    private System.Action<PipeResult> GeneratingPipe; 
-    
     private GenericRepository<User> userRepository;
     private GenericRepository<Holiday> holidayRepository;
     private FilteredRepository<User> userRepositoryFiltered;
@@ -76,12 +74,14 @@ public class UnitOfWork : IUnitOfWork
 
     public void Generate(int userQty, int[] holidayIntervals)
     {
-        var result = new PipeResult(userQty, holidayIntervals); 
-        GeneratingPipe = new PipeBuilder(InsertIntoRepository)
+        var pipeParams = new PipeParams(userQty, holidayIntervals);
+        var result = new PipeResult(pipeParams); 
+        
+        var generatingPipe = new PipeBuilder(InsertIntoRepository)
             .AddGenerating(typeof(UserPipe))
             .AddGenerating(typeof(HolidayPipe))
             .Build(); 
-        GeneratingPipe(result); 
+        generatingPipe(result); 
     }
     public void FindHolidaysByFIO(string fio)
     {
