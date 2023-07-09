@@ -16,9 +16,9 @@ public class UserPipe : AbstractPipe
             var user = new User 
             {
                 FIO = GenerateFIO(),
-                Gender = GenerateGender(),
-                JobTitle = GenerateJobTitle(),
-                Department = GenerateDepartment(),
+                Gender = GenerateEnum<Gender>(),
+                JobTitle = GenerateEnum<JobTitle>(),
+                Department = GenerateEnum<Department>(),
                 BirthDate = GenerateBirthDate()
             };
             users.Add(user); 
@@ -40,30 +40,16 @@ public class UserPipe : AbstractPipe
         }
         return finalString.Last() == ' ' ? finalString.Remove(finalString.Length - 1) : finalString; 
     }
-    private Gender GenerateGender()
+    private T GenerateEnum<T>() where T : System.Enum
     {
-        var length = System.Enum.GetNames(typeof(Gender)).Length; 
-        return (Gender) GetRandom(length); 
-    }
-    private JobTitle GenerateJobTitle()
-    {
-        var length = System.Enum.GetNames(typeof(JobTitle)).Length; 
-        return (JobTitle) GetRandom(length); 
-    }
-    private Department GenerateDepartment()
-    {
-        var length = System.Enum.GetNames(typeof(Department)).Length; 
-        return (Department) GetRandom(length); 
+        var length = System.Enum.GetNames(typeof(T)).Length; 
+        return (T)(object) new Random().Next(1, length + 1); 
     }
     private System.DateTime GenerateBirthDate()
     {
         System.DateTime start = new System.DateTime(System.DateTime.Now.Year - ConfigHelper.UserMaxAge, 1, 1); 
         System.DateTime end = new System.DateTime(System.DateTime.Now.Year - ConfigHelper.UserMinAge, 1, 1); 
         return base.GenerateDate(start, end); 
-    }
-    private int GetRandom(int length)
-    {
-        return new Random().Next(1, length + 1); 
     }
     public override void Handle(PipeResult result)
     {
