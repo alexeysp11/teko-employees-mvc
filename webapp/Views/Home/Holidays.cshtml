@@ -123,6 +123,8 @@ else
             @foreach (var obj in Model)
             {
                 var age = System.DateTime.Now.Year - obj.User.BirthDate.Year;
+                if (obj.User.BirthDate.Month > System.DateTime.Now.Month && obj.User.BirthDate.Day > System.DateTime.Now.Day)
+                    age -= 1; 
                 <tr>
                     <td>
                         @obj.User.FIO

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using TekoEmployeesMvc.Helpers; 
 using TekoEmployeesMvc.Models;
 
 namespace TekoEmployeesMvc.Controllers;
@@ -8,13 +9,6 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IUnitOfWork _unitOfWork; 
-    private readonly string UsersUidStr = "usersUid"; 
-    private readonly string HolidaysUidStr = "holidaysUid"; 
-    private readonly string FilterInfoUsersStr = "filterInfoUsers"; 
-    private readonly string FilterInfoHolidaysStr = "filterInfoHolidays"; 
-    private readonly string UserInfoHolidaysStr = "userInfoHolidays"; 
-    private readonly string FilterOptionsHolidaysStr = "filterOptionsHolidays"; 
-    private readonly string FilterOptionsUsersStr = "filterOptionsUsers"; 
 
     public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
     {
@@ -29,7 +23,7 @@ public class HomeController : Controller
 
     public IActionResult Users()
     {
-        var uidObj = TempData[UsersUidStr];
+        var uidObj = TempData[StringHelper.UsersUidStr];
         if (uidObj != null && !string.IsNullOrEmpty(uidObj.ToString()))
         {
             var usersFiltered = _unitOfWork.GetFilteredUsers(uidObj.ToString()).ToList(); 
@@ -39,15 +33,15 @@ public class HomeController : Controller
                 return View(usersFiltered);
             }
         }
-        TempData[FilterInfoUsersStr] = "No filters applied"; 
-        TempData[FilterOptionsUsersStr] = "No filters applied"; 
+        TempData[StringHelper.FilterInfoUsersStr] = StringHelper.NoFiltersApplied; 
+        TempData[StringHelper.FilterOptionsUsersStr] = StringHelper.NoFiltersApplied; 
         var users = _unitOfWork.GetUsers(); 
         return View(users);
     }
 
     public IActionResult Holidays()
     {
-        var uidObj = TempData[HolidaysUidStr];
+        var uidObj = TempData[StringHelper.HolidaysUidStr];
         if (uidObj != null && !string.IsNullOrEmpty(uidObj.ToString()))
         {
             var holidaysFiltered = _unitOfWork.GetFilteredHolidays(uidObj.ToString()).ToList(); 
@@ -57,9 +51,9 @@ public class HomeController : Controller
                 return View(holidaysFiltered);
             }
         }
-        TempData[FilterInfoHolidaysStr] = "No filters applied"; 
-        TempData[UserInfoHolidaysStr] = "No filters applied"; 
-        TempData[FilterOptionsHolidaysStr] = "No filters applied"; 
+        TempData[StringHelper.FilterInfoHolidaysStr] = StringHelper.NoFiltersApplied; 
+        TempData[StringHelper.UserInfoHolidaysStr] = StringHelper.NoFiltersApplied; 
+        TempData[StringHelper.FilterOptionsHolidaysStr] = StringHelper.NoFiltersApplied; 
         var holdays = _unitOfWork.GetHolidays(); 
         return View(holdays);
     }
@@ -70,9 +64,9 @@ public class HomeController : Controller
     {
         var users = _unitOfWork.GetUsers(x => string.IsNullOrEmpty(fio) || x.FIO.Contains(fio)); 
         string uid = _unitOfWork.InsertFilteredUsers(users); 
-        TempData[UsersUidStr] = uid; 
-        TempData[FilterInfoUsersStr] = $"fio: '{fio}', age: '{ageFrom}' to '{ageTo}', gender: '{gender}', jobTitle: '{jobTitle}'"; 
-        TempData[FilterOptionsUsersStr] = filterOptions; 
+        TempData[StringHelper.UsersUidStr] = uid; 
+        TempData[StringHelper.FilterInfoUsersStr] = $"fio: '{fio}', age: '{ageFrom}' to '{ageTo}', gender: '{gender}', jobTitle: '{jobTitle}'"; 
+        TempData[StringHelper.FilterOptionsUsersStr] = filterOptions; 
         
         return RedirectToAction("Users");
     }
@@ -98,12 +92,12 @@ public class HomeController : Controller
         string uid = _unitOfWork.InsertFilteredHolidays(holdays); 
 
         // Store UID and  in views 
-        TempData[HolidaysUidStr] = uid; 
+        TempData[StringHelper.HolidaysUidStr] = uid; 
 
         // Store info about filtering 
-        TempData[FilterInfoHolidaysStr] = $"fio: '{fio}', age: '{ageFrom}' to '{ageTo}', gender: '{gender}', jobTitle: '{jobTitle}'"; 
-        TempData[UserInfoHolidaysStr] = $"currentFio: '{currentFio}', currentAge: '{currentAgeFrom}' to '{currentAgeTo}', currentGender: '{currentGender}', currentJobTitle: '{currentJobTitle}'"; 
-        TempData[FilterOptionsHolidaysStr] = filterOptions; 
+        TempData[StringHelper.FilterInfoHolidaysStr] = $"fio: '{fio}', age: '{ageFrom}' to '{ageTo}', gender: '{gender}', jobTitle: '{jobTitle}'"; 
+        TempData[StringHelper.UserInfoHolidaysStr] = $"currentFio: '{currentFio}', currentAge: '{currentAgeFrom}' to '{currentAgeTo}', currentGender: '{currentGender}', currentJobTitle: '{currentJobTitle}'"; 
+        TempData[StringHelper.FilterOptionsHolidaysStr] = filterOptions; 
 
         return RedirectToAction("Holidays");
     }

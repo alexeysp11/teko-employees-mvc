@@ -16,6 +16,7 @@ public class UnitOfWork : IUnitOfWork
     // 4) Test the class.
 
     private System.Action<PipeResult> GeneratingPipe; 
+    
     private GenericRepository<User> userRepository;
     private GenericRepository<Holiday> holidayRepository;
     private FilteredRepository<User> userRepositoryFiltered;
@@ -81,7 +82,6 @@ public class UnitOfWork : IUnitOfWork
             .AddGenerating(typeof(HolidayPipe))
             .Build(); 
         GeneratingPipe(result); 
-        // return result; 
     }
     public void FindHolidaysByFIO(string fio)
     {
