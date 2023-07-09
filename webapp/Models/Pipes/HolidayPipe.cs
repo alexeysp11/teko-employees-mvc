@@ -8,31 +8,20 @@ public class HolidayPipe : AbstractPipe
     public HolidayPipe(System.Action<PipeResult> function) : base(function)
     {
     }
-    public List<Holiday> GenerateHolidays(List<User> users, int count)
+    public List<Holiday> GenerateHolidays(List<User> users, int[] holidayIntervals)
     {
         var holidays = new List<Holiday>(); 
         foreach (var user in users)
         {
-            var userHolidays = GenerateHolidays(user, count); 
+            var userHolidays = GenerateHolidays(user, holidayIntervals); 
             holidays.AddRange(userHolidays); 
         }
         return holidays; 
     }
-    private List<Holiday> GenerateHolidays(User user, int count)
+    private List<Holiday> GenerateHolidays(User user, int[] holidayIntervals)
     {
-        var holidays = new List<Holiday>(); 
-        for (int i = 0; i < count; i++)
-        {
-            // Algorithm for adding holidays could be implemented in 2 different ways:
-            // 1) 14 days first; 
-            // 2) order doesn't matter.
-
-            // 
-            IHolidayGenerator generator = new HolidayGenerator(); 
-            var holiday = generator.GenerateHoliday(user, holidays, GenerateDate); 
-            holidays.Add(holiday); 
-        }
-        return holidays; 
+        IHolidayGenerator generator = new HolidayGenerator(); 
+        return generator.GenerateHolidays(user, holidayIntervals, GenerateDate); 
     }
     public static void AddHoliday(PipeResult result, string fio, System.DateTime begin, System.DateTime end)
     {
@@ -58,7 +47,7 @@ public class HolidayPipe : AbstractPipe
     }
     public override void Handle(PipeResult result)
     {
-        result.Holidays = GenerateHolidays(result.Users, result.HolidayQty); 
+        result.Holidays = GenerateHolidays(result.Users, result.HolidayIntervals); 
         _function(result); 
     }
 }

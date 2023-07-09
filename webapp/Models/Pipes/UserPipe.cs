@@ -50,8 +50,10 @@ public class UserPipe : AbstractPipe
     }
     private System.DateTime GenerateBirthDate()
     {
-        var start = new System.DateTime(1900, 1, 1); 
-        var end = System.DateTime.Today; 
+        int maxAge = 70; 
+        int minAge = 18; 
+        System.DateTime start = new System.DateTime(System.DateTime.Now.Year - maxAge, 1, 1); 
+        System.DateTime end = new System.DateTime(System.DateTime.Now.Year - minAge, 1, 1); 
         return base.GenerateDate(start, end); 
     }
     public override void Handle(PipeResult result)

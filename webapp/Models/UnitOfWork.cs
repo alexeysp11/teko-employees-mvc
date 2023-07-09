@@ -69,13 +69,13 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork()
     {
         int userQty = 100; 
-        int holidayQty = 3; 
-        Generate(userQty, holidayQty); 
+        int[] holidayIntervals = { 14, 7, 7 }; 
+        Generate(userQty, holidayIntervals); 
     }
 
-    public void Generate(int userQty, int holidayQty)
+    public void Generate(int userQty, int[] holidayIntervals)
     {
-        var result = new PipeResult(userQty, holidayQty); 
+        var result = new PipeResult(userQty, holidayIntervals); 
         GeneratingPipe = new PipeBuilder(InsertIntoRepository)
             .AddGenerating(typeof(UserPipe))
             .AddGenerating(typeof(HolidayPipe))

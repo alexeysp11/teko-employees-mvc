@@ -8,7 +8,7 @@ public interface IUnitOfWork
     FilteredRepository<User> UserRepositoryFiltered { get; }
     FilteredRepository<Holiday> HolidayRepositoryFiltered { get; }
 
-    void Generate(int userQty, int holidayQty);
+    void Generate(int userQty, int[] holidayIntervals);
     
     void InsertHoliday(string fio, System.DateTime start, System.DateTime end); 
 
