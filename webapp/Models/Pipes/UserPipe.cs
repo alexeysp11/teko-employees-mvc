@@ -43,23 +43,27 @@ public class UserPipe : AbstractPipe
     private Gender GenerateGender()
     {
         var length = System.Enum.GetNames(typeof(Gender)).Length; 
-        return (Gender) new Random().Next(1, length + 1); 
+        return (Gender) GetRandom(length); 
     }
     private JobTitle GenerateJobTitle()
     {
         var length = System.Enum.GetNames(typeof(JobTitle)).Length; 
-        return (JobTitle) new Random().Next(1, length + 1); 
+        return (JobTitle) GetRandom(length); 
     }
     private Department GenerateDepartment()
     {
         var length = System.Enum.GetNames(typeof(Department)).Length; 
-        return (Department) new Random().Next(1, length + 1); 
+        return (Department) GetRandom(length); 
     }
     private System.DateTime GenerateBirthDate()
     {
         System.DateTime start = new System.DateTime(System.DateTime.Now.Year - ConfigHelper.UserMaxAge, 1, 1); 
         System.DateTime end = new System.DateTime(System.DateTime.Now.Year - ConfigHelper.UserMinAge, 1, 1); 
         return base.GenerateDate(start, end); 
+    }
+    private int GetRandom(int length)
+    {
+        return new Random().Next(1, length + 1); 
     }
     public override void Handle(PipeResult result)
     {

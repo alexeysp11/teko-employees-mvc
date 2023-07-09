@@ -11,7 +11,6 @@ public class HolidayGenerator : IHolidayGenerator
         var year = System.DateTime.Now.Year; 
         foreach (var interval in holidayIntervals)
         {
-            // 
             System.DateTime start; 
             System.DateTime end; 
             do 

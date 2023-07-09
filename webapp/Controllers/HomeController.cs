@@ -65,7 +65,7 @@ public class HomeController : Controller
         var users = _unitOfWork.GetUsers(x => string.IsNullOrEmpty(fio) || x.FIO.Contains(fio)); 
         string uid = _unitOfWork.InsertFilteredUsers(users); 
         TempData[StringHelper.UsersUidStr] = uid; 
-        TempData[StringHelper.FilterInfoUsersStr] = $"fio: '{fio}', age: '{ageFrom}' to '{ageTo}', gender: '{gender}', jobTitle: '{jobTitle}'"; 
+        TempData[StringHelper.FilterInfoUsersStr] = StringHelper.GetFilterOptionsString(fio, ageFrom, ageTo, gender, jobTitle); 
         TempData[StringHelper.FilterOptionsUsersStr] = filterOptions; 
         
         return RedirectToAction("Users");
@@ -83,9 +83,9 @@ public class HomeController : Controller
         holdays.AddRange(currentHoldays); 
 
         // Find intersections if necessary 
-        if (!string.IsNullOrEmpty(filterOptions) && filterOptions == "Find only intersections")
+        if (!string.IsNullOrEmpty(filterOptions) && filterOptions == StringHelper.FindOnlyIntersections)
         {
-            System.Console.WriteLine("findIntersections"); 
+            System.Console.WriteLine("Filter: " + filterOptions); 
         }
         
         // Insert filtered data and get UID 
@@ -95,8 +95,8 @@ public class HomeController : Controller
         TempData[StringHelper.HolidaysUidStr] = uid; 
 
         // Store info about filtering 
-        TempData[StringHelper.FilterInfoHolidaysStr] = $"fio: '{fio}', age: '{ageFrom}' to '{ageTo}', gender: '{gender}', jobTitle: '{jobTitle}'"; 
-        TempData[StringHelper.UserInfoHolidaysStr] = $"currentFio: '{currentFio}', currentAge: '{currentAgeFrom}' to '{currentAgeTo}', currentGender: '{currentGender}', currentJobTitle: '{currentJobTitle}'"; 
+        TempData[StringHelper.FilterInfoHolidaysStr] = StringHelper.GetFilterOptionsString(fio, ageFrom, ageTo, gender, jobTitle);  
+        TempData[StringHelper.UserInfoHolidaysStr] = StringHelper.GetFilterOptionsString(currentFio, currentAgeFrom, currentAgeTo, currentGender, currentJobTitle);  
         TempData[StringHelper.FilterOptionsHolidaysStr] = filterOptions; 
 
         return RedirectToAction("Holidays");
