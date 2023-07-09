@@ -14,6 +14,7 @@ public class HomeController : Controller
     private readonly string FilterInfoHolidaysStr = "filterInfoHolidays"; 
     private readonly string UserInfoHolidaysStr = "userInfoHolidays"; 
     private readonly string FilterOptionsHolidaysStr = "filterOptionsHolidays"; 
+    private readonly string FilterOptionsUsersStr = "filterOptionsUsers"; 
 
     public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
     {
@@ -39,6 +40,7 @@ public class HomeController : Controller
             }
         }
         TempData[FilterInfoUsersStr] = "No filters applied"; 
+        TempData[FilterOptionsUsersStr] = "No filters applied"; 
         var users = _unitOfWork.GetUsers(); 
         return View(users);
     }
@@ -64,24 +66,23 @@ public class HomeController : Controller
 
     [HttpPost("[action]")]
     [Route("/Home")]
-    public IActionResult FilterUsers(string fio, string age, string gender, string jobTitle)
+    public IActionResult FilterUsers(string fio, string ageFrom, string ageTo, string gender, string jobTitle, string filterOptions)
     {
         var users = _unitOfWork.GetUsers(x => string.IsNullOrEmpty(fio) || x.FIO.Contains(fio)); 
         string uid = _unitOfWork.InsertFilteredUsers(users); 
         TempData[UsersUidStr] = uid; 
-        TempData[FilterInfoUsersStr] = $"fio: '{fio}', gender: '{gender}', jobTitle: '{jobTitle}'"; 
+        TempData[FilterInfoUsersStr] = $"fio: '{fio}', age: '{ageFrom}' to '{ageTo}', gender: '{gender}', jobTitle: '{jobTitle}'"; 
+        TempData[FilterOptionsUsersStr] = filterOptions; 
         
         return RedirectToAction("Users");
     }
 
     [HttpPost("[action]")]
     [Route("/Home")]
-    public IActionResult FilterHolidays(string fio, string age, string gender, string jobTitle, 
-        string currentFio, string currentAge, string currentGender, string currentJobTitle, 
+    public IActionResult FilterHolidays(string fio, string ageFrom, string ageTo, string gender, string jobTitle, 
+        string currentFio, string currentAgeFrom, string currentAgeTo, string currentGender, string currentJobTitle, 
         string filterOptions)
     {
-        // System.Console.WriteLine($"fio: '{fio}', gender: '{gender}', jobTitle: '{jobTitle}'"); 
-
         // Get filtered data 
         var holdays = _unitOfWork.GetHolidays(x => string.IsNullOrEmpty(fio) || x.User.FIO.Contains(fio)); 
         var currentHoldays = _unitOfWork.GetHolidays(x => string.IsNullOrEmpty(currentFio) || x.User.FIO.Contains(currentFio)); 
@@ -100,8 +101,8 @@ public class HomeController : Controller
         TempData[HolidaysUidStr] = uid; 
 
         // Store info about filtering 
-        TempData[FilterInfoHolidaysStr] = $"fio: '{fio}', gender: '{gender}', jobTitle: '{jobTitle}'"; 
-        TempData[UserInfoHolidaysStr] = $"currentFio: '{currentFio}', currentGender: '{currentGender}', currentJobTitle: '{currentJobTitle}'"; 
+        TempData[FilterInfoHolidaysStr] = $"fio: '{fio}', age: '{ageFrom}' to '{ageTo}', gender: '{gender}', jobTitle: '{jobTitle}'"; 
+        TempData[UserInfoHolidaysStr] = $"currentFio: '{currentFio}', currentAge: '{currentAgeFrom}' to '{currentAgeTo}', currentGender: '{currentGender}', currentJobTitle: '{currentJobTitle}'"; 
         TempData[FilterOptionsHolidaysStr] = filterOptions; 
 
         return RedirectToAction("Holidays");

@@ -17,6 +17,7 @@ public class UserPipe : AbstractPipe
                 FIO = GenerateFIO(),
                 Gender = GenerateGender(),
                 JobTitle = GenerateJobTitle(),
+                Department = GenerateDepartment(),
                 BirthDate = GenerateBirthDate()
             };
             users.Add(user); 
@@ -47,6 +48,11 @@ public class UserPipe : AbstractPipe
     {
         var length = System.Enum.GetNames(typeof(JobTitle)).Length; 
         return (JobTitle) new Random().Next(1, length + 1); 
+    }
+    private Department GenerateDepartment()
+    {
+        var length = System.Enum.GetNames(typeof(Department)).Length; 
+        return (Department) new Random().Next(1, length + 1); 
     }
     private System.DateTime GenerateBirthDate()
     {
