@@ -1,5 +1,6 @@
 using System.Collections.Generic; 
 using System.Linq.Expressions;
+using TekoEmployeesMvc.Helpers;
 
 namespace TekoEmployeesMvc.Models;
 
@@ -67,14 +68,12 @@ public class UnitOfWork : IUnitOfWork
 
     public UnitOfWork()
     {
-        int userQty = 100; 
-        int[] holidayIntervals = { 14, 7, 7 }; 
-        Generate(userQty, holidayIntervals); 
+        Generate(); 
     }
 
-    public void Generate(int userQty, int[] holidayIntervals)
+    public void Generate()
     {
-        var pipeParams = new PipeParams(userQty, holidayIntervals);
+        var pipeParams = new PipeParams(ConfigHelper.UserQty, ConfigHelper.HolidayIntervals);
         var result = new PipeResult(pipeParams); 
         
         var generatingPipe = new PipeBuilder(InsertIntoRepository)

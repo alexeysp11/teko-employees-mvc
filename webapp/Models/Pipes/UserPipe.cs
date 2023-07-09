@@ -1,4 +1,5 @@
 using System.Collections.Generic; 
+using TekoEmployeesMvc.Helpers; 
 
 namespace TekoEmployeesMvc.Models;
 
@@ -28,9 +29,9 @@ public class UserPipe : AbstractPipe
     {
         var finalString = string.Empty; 
         var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        var stringChars = new char[10];
+        var stringChars = new char[ConfigHelper.UserFioLength];
         var random = new Random();
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < ConfigHelper.UserFioWordsNumber; i++)
         {
             for (int j = 0; j < stringChars.Length; j++)
                 stringChars[j] = chars[random.Next(chars.Length)];
@@ -56,10 +57,8 @@ public class UserPipe : AbstractPipe
     }
     private System.DateTime GenerateBirthDate()
     {
-        int maxAge = 70; 
-        int minAge = 18; 
-        System.DateTime start = new System.DateTime(System.DateTime.Now.Year - maxAge, 1, 1); 
-        System.DateTime end = new System.DateTime(System.DateTime.Now.Year - minAge, 1, 1); 
+        System.DateTime start = new System.DateTime(System.DateTime.Now.Year - ConfigHelper.UserMaxAge, 1, 1); 
+        System.DateTime end = new System.DateTime(System.DateTime.Now.Year - ConfigHelper.UserMinAge, 1, 1); 
         return base.GenerateDate(start, end); 
     }
     public override void Handle(PipeResult result)

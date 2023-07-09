@@ -1,10 +1,11 @@
 using System.Collections.Concurrent; 
+using TekoEmployeesMvc.Helpers;
 
 namespace TekoEmployeesMvc.Models;
 
 public class FilteredRepository<TEntity> where TEntity : class
 {
-    internal ConcurrentDictionary<string, FilteredRecord<TEntity>> filteredDbSet; 
+    private ConcurrentDictionary<string, FilteredRecord<TEntity>> filteredDbSet; 
     private System.Timers.Timer aTimer;
 
     public FilteredRepository()
@@ -47,7 +48,7 @@ public class FilteredRepository<TEntity> where TEntity : class
     private void SetTimer()
     {
         // Create a timer with a two second interval.
-        aTimer = new System.Timers.Timer(20000);
+        aTimer = new System.Timers.Timer(ConfigHelper.DbSetCollectorInterval);
 
         // Hook up the Elapsed event for the timer. 
         aTimer.Elapsed += OnTimedEvent;
@@ -63,14 +64,13 @@ public class FilteredRepository<TEntity> where TEntity : class
         {
             // Delete unnecessary elements from dataset and datetime set 
             var timeDiff = System.DateTime.Now - item.Value.DateTimeCreated; 
-            if (item.Value.IsReadyForDeleting || timeDiff.Milliseconds >= 20000)
+            if (item.Value.IsReadyForDeleting || timeDiff.Milliseconds >= ConfigHelper.DbSetCollectorInterval)
                 keysToDelete.Add(item.Key); 
         }
         foreach (var key in keysToDelete)
         {
             var element = new FilteredRecord<TEntity>(); 
             filteredDbSet.TryRemove(key, out element); 
-            System.Console.WriteLine($"object of type '{typeof(TEntity).FullName}' was deleted"); 
         }
     }
 }

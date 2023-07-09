@@ -10,7 +10,7 @@ public class GenericRepository<TEntity> where TEntity : class
     // TODO: 
     // 1) Isolate dbSet using lock 
 
-    internal List<TEntity> dbSet;
+    private List<TEntity> dbSet;
 
     public GenericRepository()
     {
