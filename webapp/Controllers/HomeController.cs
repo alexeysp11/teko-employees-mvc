@@ -9,11 +9,13 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IUnitOfWork _unitOfWork; 
+    private readonly ITekoDataFilter _tekoFilter; 
 
-    public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
+    public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, ITekoDataFilter tekoFilter)
     {
         _logger = logger;
         _unitOfWork = unitOfWork; 
+        _tekoFilter = tekoFilter; 
     }
 
     public IActionResult Index()
@@ -69,8 +71,14 @@ public class HomeController : Controller
     public IActionResult FilterUsers(string fio, string ageFrom, string ageTo, string gender, string jobTitle, string department, 
         string filterOptions)
     {
-        var users = _unitOfWork.GetUsers(x => string.IsNullOrEmpty(fio) || x.FIO.Contains(fio)); 
+        // Apply filters 
+        // Use a class FilterUserParams to avoid duplicating all the variables 
+        var users = _tekoFilter.FilterUsers(fio, ageFrom, ageTo, gender, jobTitle, department, filterOptions, _unitOfWork.GetUsers); 
+        
+        // Save filtered users 
         string uid = _unitOfWork.InsertFilteredUsers(users); 
+
+        // Save info about applied filters 
         TempData[StringHelper.UsersUidStr] = uid; 
         TempData[StringHelper.FilterInfoUsersStr] = StringHelper.GetFilterOptionsString(fio, ageFrom, ageTo, gender, jobTitle, department); 
         TempData[StringHelper.FilterOptionsUsersStr] = filterOptions; 
