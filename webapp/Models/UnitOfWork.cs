@@ -6,16 +6,6 @@ namespace TekoEmployeesMvc.Models;
 
 public class UnitOfWork : IUnitOfWork
 {
-    // Implement one of the following options: 
-    // 1) using DI container; 
-    // 2) using pipe. 
-
-    // TODO: 
-    // 1) Finish GenerateHolidays(): implement all the algorithms for creating a list of holidays; 
-    // 2) Create a pipe of functions. 
-    // 3) Implement storing data in database. 
-    // 4) Test the class.
-
     private GenericRepository<User> userRepository;
     private GenericRepository<Holiday> holidayRepository;
     private FilteredRepository<User> userRepositoryFiltered;
@@ -71,7 +61,7 @@ public class UnitOfWork : IUnitOfWork
         Generate(); 
     }
 
-    public void Generate()
+    private void Generate()
     {
         var pipeParams = new PipeParams(ConfigHelper.UserQty, ConfigHelper.HolidayIntervals);
         var result = new PipeResult(pipeParams); 

@@ -7,9 +7,6 @@ namespace TekoEmployeesMvc.Models;
 
 public class GenericRepository<TEntity> where TEntity : class
 {
-    // TODO: 
-    // 1) Isolate dbSet using lock 
-
     private List<TEntity> dbSet;
 
     public GenericRepository()

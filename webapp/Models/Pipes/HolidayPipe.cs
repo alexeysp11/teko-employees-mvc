@@ -8,20 +8,16 @@ public class HolidayPipe : AbstractPipe
     public HolidayPipe(System.Action<PipeResult> function) : base(function)
     {
     }
-    public List<Holiday> GenerateHolidays(List<User> users, int[] holidayIntervals)
+    private List<Holiday> GenerateHolidays(List<User> users, int[] holidayIntervals)
     {
         var holidays = new List<Holiday>(); 
         foreach (var user in users)
         {
-            var userHolidays = GenerateHolidays(user, holidayIntervals); 
+            IHolidayGenerator generator = new HolidayGenerator(); 
+            var userHolidays = generator.GenerateHolidays(user, holidayIntervals, GenerateDate); 
             holidays.AddRange(userHolidays); 
         }
         return holidays; 
-    }
-    private List<Holiday> GenerateHolidays(User user, int[] holidayIntervals)
-    {
-        IHolidayGenerator generator = new HolidayGenerator(); 
-        return generator.GenerateHolidays(user, holidayIntervals, GenerateDate); 
     }
     public static void AddHoliday(PipeResult result, string fio, System.DateTime begin, System.DateTime end)
     {

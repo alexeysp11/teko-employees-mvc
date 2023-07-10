@@ -8,7 +8,7 @@ public class UserPipe : AbstractPipe
     public UserPipe(System.Action<PipeResult> function) : base(function)
     {
     }
-    public List<User> GenerateUsers(int count)
+    private List<User> GenerateUsers(int count)
     {
         var users = new List<User>(); 
         for (int i = 0; i < count; i++)
