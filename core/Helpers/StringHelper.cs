@@ -33,7 +33,7 @@ public static class StringHelper
             result += "FIO: " + fio; 
         if (!string.IsNullOrEmpty(ageFrom) || !string.IsNullOrEmpty(ageTo))
         {
-            if (!string.IsNullOrEmpty(fio))
+            if (!string.IsNullOrEmpty(result))
                 result += ", "; 
             string fromString = (string.IsNullOrEmpty(ageFrom) ? "" : (string.IsNullOrEmpty(ageTo) ? "older than " : "from ") + ageFrom + " "); 
             string toString = (string.IsNullOrEmpty(ageTo) ? "" : (string.IsNullOrEmpty(ageFrom) ? "younger than " : "to ") + ageTo); 
@@ -41,19 +41,19 @@ public static class StringHelper
         }
         if (!string.IsNullOrEmpty(gender))
         {
-            if (!string.IsNullOrEmpty(ageFrom) || !string.IsNullOrEmpty(ageTo))
+            if (!string.IsNullOrEmpty(result))
                 result += ", "; 
             result += "gender: " + gender; 
         }
         if (!string.IsNullOrEmpty(jobTitle))
         {
-            if (!string.IsNullOrEmpty(gender))
+            if (!string.IsNullOrEmpty(result))
                 result += ", "; 
             result += "job title: " + jobTitle; 
         }
         if (!string.IsNullOrEmpty(department))
         {
-            if (!string.IsNullOrEmpty(jobTitle))
+            if (!string.IsNullOrEmpty(result))
                 result += ", "; 
             result += "department: " + department; 
         }

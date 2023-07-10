@@ -1,3 +1,5 @@
+using TekoEmployeesMvc.Helpers; 
+
 namespace TekoEmployeesMvc.Models;
 
 public class UserGenerator : IUserGenerator

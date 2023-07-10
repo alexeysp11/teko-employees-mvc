@@ -29,11 +29,8 @@ public class HomeController : Controller
         if (uidObj != null && !string.IsNullOrEmpty(uidObj.ToString()))
         {
             var usersFiltered = _unitOfWork.GetFilteredUsers(uidObj.ToString()).ToList(); 
-            if (usersFiltered.Count != 0)
-            {
-                uidObj = string.Empty;
-                return View(usersFiltered);
-            }
+            uidObj = string.Empty;
+            return View(usersFiltered);
         }
         TempData[StringHelper.FilterInfoUsersStr] = StringHelper.NoFiltersApplied; 
         TempData[StringHelper.FilterOptionsUsersStr] = StringHelper.NoFiltersApplied; 
