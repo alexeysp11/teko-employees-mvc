@@ -30,7 +30,7 @@
             }
         </select>
         <label>Department: </label>
-        <select name="jobTitle">
+        <select name="department">
             <option></option>
             @foreach (var obj in departments) 
             {
@@ -62,7 +62,7 @@
             }
         </select>
         <label>Department: </label>
-        <select name="jobTitle">
+        <select name="currentDepartment">
             <option></option>
             @foreach (var obj in departments) 
             {
@@ -81,11 +81,11 @@
     </form>
 </div>
 
-<label>Filters: @TempData["filterInfoHolidays"]</label>
+<label><b>Filters:</b> @TempData["filterInfoHolidays"]</label>
 <br>
-<label>Current user: @TempData["userInfoHolidays"]</label>
+<label><b>Current user:</b> @TempData["userInfoHolidays"]</label>
 <br>
-<label>Filter options: @TempData["filterOptionsHolidays"]</label>
+<label><b>Filter options:</b> @TempData["filterOptionsHolidays"]</label>
 
 @if (Model == null)
 {

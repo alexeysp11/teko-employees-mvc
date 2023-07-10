@@ -29,7 +29,7 @@
             }
         </select>
         <label>Department: </label>
-        <select name="jobTitle">
+        <select name="department">
             <option></option>
             @foreach (var obj in departments) 
             {
@@ -47,9 +47,9 @@
     </form>
 </div>
 
-<label>Filters: @TempData["filterInfoUsers"]</label>
+<label><b>Filters:</b> @TempData["filterInfoUsers"]</label>
 <br>
-<label>Filter options: @TempData["filterOptionsUsers"]</label>
+<label><b>Filter options:</b> @TempData["filterOptionsUsers"]</label>
 
 @if (Model == null)
 {
