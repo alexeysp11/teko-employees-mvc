@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../webapp/TekoEmployeesMvc.csproj" />
+    <ProjectReference Include="../core/TekoEmployeesMvc.Core.csproj" />
   </ItemGroup>
 
 </Project>

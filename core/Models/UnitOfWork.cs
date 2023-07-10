@@ -58,11 +58,6 @@ public class UnitOfWork : IUnitOfWork
 
     public UnitOfWork()
     {
-        Generate(); 
-    }
-
-    private void Generate()
-    {
         var pipeParams = new PipeParams(ConfigHelper.UserQty, ConfigHelper.HolidayIntervals);
         var result = new PipeResult(pipeParams); 
         
