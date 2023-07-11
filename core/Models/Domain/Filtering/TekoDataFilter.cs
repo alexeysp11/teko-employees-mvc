@@ -61,13 +61,34 @@ public class TekoDataFilter : ITekoDataFilter
         return result; 
     }
 
-    public IEnumerable<Vacation> FilterVacations(string fio, string ageFrom, string ageTo, string gender, string jobTitle, string department, 
+    public IEnumerable<Vacation> FilterVacations(string fio, string ageMin, string ageMax, string gender, string jobTitle, string department, 
         string currentFio, string filterOptions, Func<Expression<Func<Employee, bool>>, List<Employee>> getEmployees,
         Func<Expression<Func<Vacation, bool>>, List<Vacation>> getVacations)
     {
-        // Get vacations using filter 
-        var employees = FilterEmployees(fio, ageFrom, ageTo, gender, jobTitle, department, filterOptions, getEmployees); 
+        var employees = new List<Employee>(); 
         var vacations = new List<Vacation>(); 
+
+        // Get filtered employees 
+        // If all filters are empty and current is not empty, then don't filter employees 
+        // TODO: the following if-statement looks a little bit weird, so try to express the condition above in the more elegant way 
+        if (
+            (
+                string.IsNullOrEmpty(fio) 
+                && string.IsNullOrEmpty(ageMin) 
+                && string.IsNullOrEmpty(ageMax)
+                && string.IsNullOrEmpty(gender)
+                && string.IsNullOrEmpty(jobTitle)
+                && string.IsNullOrEmpty(department)
+            )
+            && !string.IsNullOrEmpty(currentFio))
+        {
+        }
+        else
+        {
+            employees = FilterEmployees(fio, ageMin, ageMax, gender, jobTitle, department, filterOptions, getEmployees).ToList(); 
+        }
+
+        // Get vacations using filter 
         foreach (var employee in employees)
         {
             var vacationsFiltered = getVacations(x => x.Employee.FIO == employee.FIO); 

@@ -12,9 +12,9 @@
         <label>FIO: </label>
         <input type="text" placeholder="Enter FIO" name="fio">
         <label>Age: </label>
-        <input type="text" placeholder="Enter age (max.)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="ageFrom">
+        <input type="text" placeholder="Enter age (min.)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="ageMin">
         <label>-</label>
-        <input type="text" placeholder="Enter age (min.)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="ageTo">
+        <input type="text" placeholder="Enter age (max.)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="ageMax">
         <label>Gender: </label>
         <select name="gender">
             <option></option>

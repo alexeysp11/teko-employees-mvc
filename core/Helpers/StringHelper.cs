@@ -17,11 +17,11 @@ public static class StringHelper
     public readonly static string FindOnlyIntersections = "Find only intersections"; 
     #endregion  // Filter options
 
-    public static string GetFilterOptionsString(string fio = "", string ageFrom = "", string ageTo = "", string gender = "", string jobTitle = "", string department = "")
+    public static string GetFilterOptionsString(string fio = "", string ageMin = "", string ageMax = "", string gender = "", string jobTitle = "", string department = "")
     {
         // If no filters applied 
-        if (string.IsNullOrEmpty(fio) && string.IsNullOrEmpty(ageFrom) 
-            && string.IsNullOrEmpty(ageTo) && string.IsNullOrEmpty(gender)
+        if (string.IsNullOrEmpty(fio) && string.IsNullOrEmpty(ageMin) 
+            && string.IsNullOrEmpty(ageMax) && string.IsNullOrEmpty(gender)
             && string.IsNullOrEmpty(jobTitle) && string.IsNullOrEmpty(department))
         {
             return NoFiltersApplied; 
@@ -31,12 +31,12 @@ public static class StringHelper
         string result = string.Empty; 
         if (!string.IsNullOrEmpty(fio))
             result += "FIO: " + fio; 
-        if (!string.IsNullOrEmpty(ageFrom) || !string.IsNullOrEmpty(ageTo))
+        if (!string.IsNullOrEmpty(ageMin) || !string.IsNullOrEmpty(ageMax))
         {
             if (!string.IsNullOrEmpty(result))
                 result += ", "; 
-            string fromString = (string.IsNullOrEmpty(ageFrom) ? "" : (string.IsNullOrEmpty(ageTo) ? "older than " : "from ") + ageFrom + " "); 
-            string toString = (string.IsNullOrEmpty(ageTo) ? "" : (string.IsNullOrEmpty(ageFrom) ? "younger than " : "to ") + ageTo); 
+            string fromString = (string.IsNullOrEmpty(ageMin) ? "" : (string.IsNullOrEmpty(ageMax) ? "older than " : "from ") + ageMin + " "); 
+            string toString = (string.IsNullOrEmpty(ageMax) ? "" : (string.IsNullOrEmpty(ageMin) ? "younger than " : "to ") + ageMax); 
             result += "age: " + fromString + toString; 
         }
         if (!string.IsNullOrEmpty(gender))

@@ -62,19 +62,18 @@ public class HomeController : Controller
 
     [HttpPost("[action]")]
     [Route("/Home")]
-    public IActionResult FilterEmployees(string fio, string ageFrom, string ageTo, string gender, string jobTitle, string department, 
+    public IActionResult FilterEmployees(string fio, string ageMin, string ageMax, string gender, string jobTitle, string department, 
         string filterOptions)
     {
         // Apply filters 
-        // Use a class FilterEmployeeParams to avoid duplicating all the variables 
-        var employees = _tekoFilter.FilterEmployees(fio, ageFrom, ageTo, gender, jobTitle, department, filterOptions, _unitOfWork.GetEmployees); 
+        var employees = _tekoFilter.FilterEmployees(fio, ageMin, ageMax, gender, jobTitle, department, filterOptions, _unitOfWork.GetEmployees); 
         
         // Save filtered employees 
         string uid = _unitOfWork.InsertFilteredEmployees(employees); 
 
         // Save info about applied filters 
         TempData[StringHelper.EmployeesUidStr] = uid; 
-        TempData[StringHelper.FilterInfoEmployeesStr] = StringHelper.GetFilterOptionsString(fio, ageFrom, ageTo, gender, jobTitle, department); 
+        TempData[StringHelper.FilterInfoEmployeesStr] = StringHelper.GetFilterOptionsString(fio, ageMin, ageMax, gender, jobTitle, department); 
         TempData[StringHelper.FilterOptionsEmployeesStr] = filterOptions; 
         
         return RedirectToAction("Employees");
@@ -82,11 +81,11 @@ public class HomeController : Controller
 
     [HttpPost("[action]")]
     [Route("/Home")]
-    public IActionResult FilterVacations(string fio, string ageFrom, string ageTo, string gender, string jobTitle, string department, 
+    public IActionResult FilterVacations(string fio, string ageMin, string ageMax, string gender, string jobTitle, string department, 
         string currentFio, string filterOptions)
     {
         // Get filtered data 
-        var vacations = _tekoFilter.FilterVacations(fio, ageFrom, ageTo, gender, jobTitle, department, currentFio, filterOptions, _unitOfWork.GetEmployees, _unitOfWork.GetVacations); 
+        var vacations = _tekoFilter.FilterVacations(fio, ageMin, ageMax, gender, jobTitle, department, currentFio, filterOptions, _unitOfWork.GetEmployees, _unitOfWork.GetVacations); 
 
         // Insert filtered data and get UID 
         string uid = _unitOfWork.InsertFilteredVacations(vacations); 
@@ -95,7 +94,7 @@ public class HomeController : Controller
         TempData[StringHelper.VacationsUidStr] = uid; 
 
         // Store info about filtering 
-        TempData[StringHelper.FilterInfoVacationsStr] = StringHelper.GetFilterOptionsString(fio, ageFrom, ageTo, gender, jobTitle, department);  
+        TempData[StringHelper.FilterInfoVacationsStr] = StringHelper.GetFilterOptionsString(fio, ageMin, ageMax, gender, jobTitle, department);  
         TempData[StringHelper.EmployeeInfoVacationsStr] = StringHelper.GetFilterOptionsString(currentFio);  
         TempData[StringHelper.FilterOptionsVacationsStr] = filterOptions; 
 
