@@ -354,6 +354,182 @@ public class TekoDataFilterTest
         Assert.True(vacations.Count == filtered.Count); 
         Assert.True(identical); 
     }
+
+    [Fact]
+    public void FilterVacations_OnlyCurrentFioSpecified()
+    {
+        // Arrange
+        UnitOfWork = new UnitOfWork(); 
+        TekoDataFilter = new TekoDataFilter(); 
+        var fio = ""; 
+        var ageMin = ""; 
+        var ageMax = ""; 
+        var gender = ""; 
+        var jobTitle = ""; 
+        var department = ""; 
+        var filterOptions = ""; 
+
+        // Act 
+        var vacations = UnitOfWork.GetVacations().ToList(); 
+        var currentFio = vacations.First().Employee.FIO; 
+        var referenceList = vacations.Where(x => x.Employee.FIO == currentFio).ToList(); 
+        var filtered = TekoDataFilter.FilterVacations(fio, ageMin.ToString(), ageMax.ToString(), gender, jobTitle, department, currentFio, filterOptions, UnitOfWork.GetEmployees, UnitOfWork.GetVacations).ToList(); 
+        var identical = CompareLists(referenceList, filtered);
+
+        // Assert 
+        Assert.True(filtered.Count == referenceList.Count); 
+        Assert.True(identical); 
+    }
+
+    [Fact]
+    public void FilterVacations_FioAndCurrentFioTheSameSpecified()
+    {
+        // Arrange
+        UnitOfWork = new UnitOfWork(); 
+        TekoDataFilter = new TekoDataFilter(); 
+        var ageMin = ""; 
+        var ageMax = ""; 
+        var gender = ""; 
+        var jobTitle = ""; 
+        var department = Department.Administration.ToString(); 
+        var filterOptions = ""; 
+
+        // Act 
+        var vacations = UnitOfWork.GetVacations().ToList(); 
+        var fio = vacations.First().Employee.FIO; 
+        var currentFio = fio; 
+        var referenceList = vacations.Where(x => x.Employee.FIO == fio).ToList(); 
+        var filtered = TekoDataFilter.FilterVacations(fio, ageMin, ageMax, gender, jobTitle, department, currentFio, filterOptions, UnitOfWork.GetEmployees, UnitOfWork.GetVacations).ToList(); 
+        var identical = CompareLists(referenceList, filtered);
+
+        // Assert 
+        Assert.True(filtered.Count == referenceList.Count); 
+        Assert.True(identical); 
+    }
+
+    [Fact]
+    public void FilterVacations_FioAgeDepartmentAndCurrentFioSpecified()
+    {
+        // Arrange
+        UnitOfWork = new UnitOfWork(); 
+        TekoDataFilter = new TekoDataFilter(); 
+        var ageMin = 34; 
+        var ageMax = 68; 
+        var gender = ""; 
+        var jobTitle = ""; 
+        var department = Department.Administration.ToString(); 
+        var filterOptions = ""; 
+
+        // Act 
+        var vacations = UnitOfWork.GetVacations().ToList(); 
+        var fio = vacations.First().Employee.FIO; 
+        var currentFio = vacations.Last().Employee.FIO; 
+        var referenceList = vacations.Where(x => 
+            (
+                x.Employee.FIO == fio 
+                && x.Employee.BirthDate <= System.DateTime.Now.AddYears(-ageMin)
+                && x.Employee.BirthDate >= System.DateTime.Now.AddYears(-ageMax)
+                && x.Employee.Department.ToString() == department
+            )
+            || x.Employee.FIO == currentFio).ToList(); 
+        var filtered = TekoDataFilter.FilterVacations(fio, ageMin.ToString(), ageMax.ToString(), gender, jobTitle, department, currentFio, filterOptions, UnitOfWork.GetEmployees, UnitOfWork.GetVacations).ToList(); 
+        var identical = CompareLists(referenceList, filtered);
+
+        // Assert 
+        Assert.True(filtered.Count == referenceList.Count); 
+        Assert.True(identical); 
+    }
+
+    [Fact]
+    public void FilterVacations_AgeGenderAndCurrentFioSpecified()
+    {
+        // Arrange
+        UnitOfWork = new UnitOfWork(); 
+        TekoDataFilter = new TekoDataFilter(); 
+        var fio = ""; 
+        var ageMin = 34; 
+        var ageMax = 68; 
+        var gender = Gender.Female.ToString(); 
+        var jobTitle = ""; 
+        var department = ""; 
+        var filterOptions = ""; 
+
+        // Act 
+        var vacations = UnitOfWork.GetVacations().ToList(); 
+        var currentFio = vacations.First().Employee.FIO; 
+        var referenceList = vacations.Where(x => 
+            (
+                x.Employee.Gender.ToString() == gender
+                && x.Employee.BirthDate <= System.DateTime.Now.AddYears(-ageMin)
+                && x.Employee.BirthDate >= System.DateTime.Now.AddYears(-ageMax)
+            )
+            || x.Employee.FIO == currentFio).ToList(); 
+        var filtered = TekoDataFilter.FilterVacations(fio, ageMin.ToString(), ageMax.ToString(), gender, jobTitle, department, currentFio, filterOptions, UnitOfWork.GetEmployees, UnitOfWork.GetVacations).ToList(); 
+        var identical = CompareLists(referenceList, filtered);
+
+        // Assert 
+        Assert.True(filtered.Count == referenceList.Count); 
+        Assert.True(identical); 
+    }
+
+    [Fact]
+    public void FilterVacations_OnlyCurrentFioAndDepartmentSpecified()
+    {
+        // Arrange
+        UnitOfWork = new UnitOfWork(); 
+        TekoDataFilter = new TekoDataFilter(); 
+        var fio = ""; 
+        var ageMin = ""; 
+        var ageMax = ""; 
+        var gender = ""; 
+        var jobTitle = ""; 
+        var department = Department.Administration.ToString(); 
+        var filterOptions = ""; 
+
+        // Act 
+        var vacations = UnitOfWork.GetVacations().ToList(); 
+        var currentFio = vacations.First().Employee.FIO; 
+        var referenceList = vacations.Where(x => 
+            x.Employee.FIO == currentFio
+            || x.Employee.Department.ToString() == department).ToList(); 
+        var filtered = TekoDataFilter.FilterVacations(fio, ageMin.ToString(), ageMax.ToString(), gender, jobTitle, department, currentFio, filterOptions, UnitOfWork.GetEmployees, UnitOfWork.GetVacations).ToList(); 
+        var identical = CompareLists(referenceList, filtered);
+
+        // Assert 
+        Assert.True(filtered.Count == referenceList.Count); 
+        Assert.True(identical); 
+    }
+
+    [Fact]
+    public void FilterVacations_AgeGenderJobTitleAndDepartmentSpecified()
+    {
+        // Arrange
+        UnitOfWork = new UnitOfWork(); 
+        TekoDataFilter = new TekoDataFilter(); 
+        var fio = ""; 
+        var ageMin = 34; 
+        var ageMax = 55; 
+        var gender = Gender.Male.ToString(); 
+        var jobTitle = JobTitle.DevelopmentLead.ToString(); 
+        var department = Department.Administration.ToString(); 
+        var currentFio = ""; 
+        var filterOptions = ""; 
+
+        // Act 
+        var vacations = UnitOfWork.GetVacations().ToList(); 
+        var referenceList = vacations.Where(x => 
+            x.Employee.BirthDate <= System.DateTime.Now.AddYears(-ageMin)
+            && x.Employee.BirthDate >= System.DateTime.Now.AddYears(-ageMax)
+            && x.Employee.Gender.ToString() == gender
+            && x.Employee.JobTitle.ToString() == jobTitle
+            && x.Employee.Department.ToString() == department).ToList(); 
+        var filtered = TekoDataFilter.FilterVacations(fio, ageMin.ToString(), ageMax.ToString(), gender, jobTitle, department, currentFio, filterOptions, UnitOfWork.GetEmployees, UnitOfWork.GetVacations).ToList(); 
+        var identical = CompareLists(referenceList, filtered);
+
+        // Assert 
+        Assert.True(filtered.Count == referenceList.Count); 
+        Assert.True(identical); 
+    }
     #endregion  // FilterVacations
 
     #region Private methods 
