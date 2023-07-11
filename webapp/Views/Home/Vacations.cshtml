@@ -43,32 +43,6 @@
         <br>
         <label>FIO: </label>
         <input type="text" placeholder="Enter FIO" name="currentFio">
-        <label>Age: </label>
-        <input type="text" placeholder="Enter age (max.)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="currentAgeFrom">
-        <label>-</label>
-        <input type="text" placeholder="Enter age (min.)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="currentAgeTo">
-        <label>Gender: </label>
-        <select name="currentGender">
-            <option></option>
-            <option>Male</option>
-            <option>Female</option>
-        </select>
-        <label>Job title: </label>
-        <select name="currentJobTitle">
-            <option></option>
-            @foreach (var obj in jobTitles) 
-            {
-                <option>@obj</option>
-            }
-        </select>
-        <label>Department: </label>
-        <select name="currentDepartment">
-            <option></option>
-            @foreach (var obj in departments) 
-            {
-                <option>@obj</option>
-            }
-        </select>
         <br>
         
         <label>Filter options: </label>

@@ -45,11 +45,8 @@ public class HomeController : Controller
         if (uidObj != null && !string.IsNullOrEmpty(uidObj.ToString()))
         {
             var vacationsFiltered = _unitOfWork.GetFilteredVacations(uidObj.ToString()).ToList(); 
-            if (vacationsFiltered.Count != 0)
-            {
-                uidObj = string.Empty;
-                return View(vacationsFiltered);
-            }
+            uidObj = string.Empty;
+            return View(vacationsFiltered);
         }
 
         // Set info about filters 
@@ -58,9 +55,9 @@ public class HomeController : Controller
         TempData[StringHelper.FilterOptionsVacationsStr] = StringHelper.NoFiltersApplied; 
 
         // Get all elements 
-        var holdays = _unitOfWork.GetVacations(); 
+        var vacations = _unitOfWork.GetVacations(); 
 
-        return View(holdays);
+        return View(vacations);
     }
 
     [HttpPost("[action]")]
@@ -86,29 +83,20 @@ public class HomeController : Controller
     [HttpPost("[action]")]
     [Route("/Home")]
     public IActionResult FilterVacations(string fio, string ageFrom, string ageTo, string gender, string jobTitle, string department, 
-        string currentFio, string currentAgeFrom, string currentAgeTo, string currentGender, string currentJobTitle, string currentDepartment, 
-        string filterOptions)
+        string currentFio, string filterOptions)
     {
         // Get filtered data 
-        var holdays = _unitOfWork.GetVacations(x => string.IsNullOrEmpty(fio) || x.Employee.FIO.Contains(fio)); 
-        var currentHoldays = _unitOfWork.GetVacations(x => string.IsNullOrEmpty(currentFio) || x.Employee.FIO.Contains(currentFio)); 
-        holdays.AddRange(currentHoldays); 
+        var vacations = _tekoFilter.FilterVacations(fio, ageFrom, ageTo, gender, jobTitle, department, currentFio, filterOptions, _unitOfWork.GetEmployees, _unitOfWork.GetVacations); 
 
-        // Find intersections if necessary 
-        if (!string.IsNullOrEmpty(filterOptions) && filterOptions == StringHelper.FindOnlyIntersections)
-        {
-            System.Console.WriteLine("Filter: " + filterOptions); 
-        }
-        
         // Insert filtered data and get UID 
-        string uid = _unitOfWork.InsertFilteredVacations(holdays); 
+        string uid = _unitOfWork.InsertFilteredVacations(vacations); 
 
         // Store UID and  in views 
         TempData[StringHelper.VacationsUidStr] = uid; 
 
         // Store info about filtering 
         TempData[StringHelper.FilterInfoVacationsStr] = StringHelper.GetFilterOptionsString(fio, ageFrom, ageTo, gender, jobTitle, department);  
-        TempData[StringHelper.EmployeeInfoVacationsStr] = StringHelper.GetFilterOptionsString(currentFio, currentAgeFrom, currentAgeTo, currentGender, currentJobTitle, currentDepartment);  
+        TempData[StringHelper.EmployeeInfoVacationsStr] = StringHelper.GetFilterOptionsString(currentFio);  
         TempData[StringHelper.FilterOptionsVacationsStr] = filterOptions; 
 
         return RedirectToAction("Vacations");

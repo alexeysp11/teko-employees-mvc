@@ -60,4 +60,36 @@ public class TekoDataFilter : ITekoDataFilter
         }
         return result; 
     }
+
+    public IEnumerable<Vacation> FilterVacations(string fio, string ageFrom, string ageTo, string gender, string jobTitle, string department, 
+        string currentFio, string filterOptions, Func<Expression<Func<Employee, bool>>, List<Employee>> getEmployees,
+        Func<Expression<Func<Vacation, bool>>, List<Vacation>> getVacations)
+    {
+        // Get vacations using filter 
+        var employees = FilterEmployees(fio, ageFrom, ageTo, gender, jobTitle, department, filterOptions, getEmployees); 
+        var vacations = new List<Vacation>(); 
+        foreach (var employee in employees)
+        {
+            var vacationsFiltered = getVacations(x => x.Employee.FIO == employee.FIO); 
+            vacations.AddRange(vacationsFiltered); 
+        }
+
+        // Get vacations of the current employee 
+        if (!string.IsNullOrEmpty(currentFio))
+        {
+            var currentVacations = getVacations(x => x.Employee.FIO.Contains(currentFio)); 
+            foreach (var vacation in currentVacations)
+            {
+                if (vacations.Where(x => 
+                        x.BeginDate == vacation.BeginDate
+                        && x.EndDate == vacation.EndDate
+                        && x.Employee.FIO == vacation.Employee.FIO)
+                    .ToList().Count == 0)
+                {
+                    vacations.Add(vacation); 
+                }
+            }
+        }
+        return vacations; 
+    }
 }

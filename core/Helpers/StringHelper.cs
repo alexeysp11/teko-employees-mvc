@@ -17,7 +17,7 @@ public static class StringHelper
     public readonly static string FindOnlyIntersections = "Find only intersections"; 
     #endregion  // Filter options
 
-    public static string GetFilterOptionsString(string fio, string ageFrom, string ageTo, string gender, string jobTitle, string department)
+    public static string GetFilterOptionsString(string fio = "", string ageFrom = "", string ageTo = "", string gender = "", string jobTitle = "", string department = "")
     {
         // If no filters applied 
         if (string.IsNullOrEmpty(fio) && string.IsNullOrEmpty(ageFrom) 
