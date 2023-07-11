@@ -23,75 +23,75 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Users()
+    public IActionResult Employees()
     {
-        var uidObj = TempData[StringHelper.UsersUidStr];
+        var uidObj = TempData[StringHelper.EmployeesUidStr];
         if (uidObj != null && !string.IsNullOrEmpty(uidObj.ToString()))
         {
-            var usersFiltered = _unitOfWork.GetFilteredUsers(uidObj.ToString()).ToList(); 
+            var employeesFiltered = _unitOfWork.GetFilteredEmployees(uidObj.ToString()).ToList(); 
             uidObj = string.Empty;
-            return View(usersFiltered);
+            return View(employeesFiltered);
         }
-        TempData[StringHelper.FilterInfoUsersStr] = StringHelper.NoFiltersApplied; 
-        TempData[StringHelper.FilterOptionsUsersStr] = StringHelper.NoFiltersApplied; 
-        var users = _unitOfWork.GetUsers(); 
-        return View(users);
+        TempData[StringHelper.FilterInfoEmployeesStr] = StringHelper.NoFiltersApplied; 
+        TempData[StringHelper.FilterOptionsEmployeesStr] = StringHelper.NoFiltersApplied; 
+        var employees = _unitOfWork.GetEmployees(); 
+        return View(employees);
     }
 
-    public IActionResult Holidays()
+    public IActionResult Vacations()
     {
         // Restore previously filtered elements 
-        var uidObj = TempData[StringHelper.HolidaysUidStr];
+        var uidObj = TempData[StringHelper.VacationsUidStr];
         if (uidObj != null && !string.IsNullOrEmpty(uidObj.ToString()))
         {
-            var holidaysFiltered = _unitOfWork.GetFilteredHolidays(uidObj.ToString()).ToList(); 
-            if (holidaysFiltered.Count != 0)
+            var vacationsFiltered = _unitOfWork.GetFilteredVacations(uidObj.ToString()).ToList(); 
+            if (vacationsFiltered.Count != 0)
             {
                 uidObj = string.Empty;
-                return View(holidaysFiltered);
+                return View(vacationsFiltered);
             }
         }
 
         // Set info about filters 
-        TempData[StringHelper.FilterInfoHolidaysStr] = StringHelper.NoFiltersApplied; 
-        TempData[StringHelper.UserInfoHolidaysStr] = StringHelper.NoFiltersApplied; 
-        TempData[StringHelper.FilterOptionsHolidaysStr] = StringHelper.NoFiltersApplied; 
+        TempData[StringHelper.FilterInfoVacationsStr] = StringHelper.NoFiltersApplied; 
+        TempData[StringHelper.EmployeeInfoVacationsStr] = StringHelper.NoFiltersApplied; 
+        TempData[StringHelper.FilterOptionsVacationsStr] = StringHelper.NoFiltersApplied; 
 
         // Get all elements 
-        var holdays = _unitOfWork.GetHolidays(); 
+        var holdays = _unitOfWork.GetVacations(); 
 
         return View(holdays);
     }
 
     [HttpPost("[action]")]
     [Route("/Home")]
-    public IActionResult FilterUsers(string fio, string ageFrom, string ageTo, string gender, string jobTitle, string department, 
+    public IActionResult FilterEmployees(string fio, string ageFrom, string ageTo, string gender, string jobTitle, string department, 
         string filterOptions)
     {
         // Apply filters 
-        // Use a class FilterUserParams to avoid duplicating all the variables 
-        var users = _tekoFilter.FilterUsers(fio, ageFrom, ageTo, gender, jobTitle, department, filterOptions, _unitOfWork.GetUsers); 
+        // Use a class FilterEmployeeParams to avoid duplicating all the variables 
+        var employees = _tekoFilter.FilterEmployees(fio, ageFrom, ageTo, gender, jobTitle, department, filterOptions, _unitOfWork.GetEmployees); 
         
-        // Save filtered users 
-        string uid = _unitOfWork.InsertFilteredUsers(users); 
+        // Save filtered employees 
+        string uid = _unitOfWork.InsertFilteredEmployees(employees); 
 
         // Save info about applied filters 
-        TempData[StringHelper.UsersUidStr] = uid; 
-        TempData[StringHelper.FilterInfoUsersStr] = StringHelper.GetFilterOptionsString(fio, ageFrom, ageTo, gender, jobTitle, department); 
-        TempData[StringHelper.FilterOptionsUsersStr] = filterOptions; 
+        TempData[StringHelper.EmployeesUidStr] = uid; 
+        TempData[StringHelper.FilterInfoEmployeesStr] = StringHelper.GetFilterOptionsString(fio, ageFrom, ageTo, gender, jobTitle, department); 
+        TempData[StringHelper.FilterOptionsEmployeesStr] = filterOptions; 
         
-        return RedirectToAction("Users");
+        return RedirectToAction("Employees");
     }
 
     [HttpPost("[action]")]
     [Route("/Home")]
-    public IActionResult FilterHolidays(string fio, string ageFrom, string ageTo, string gender, string jobTitle, string department, 
+    public IActionResult FilterVacations(string fio, string ageFrom, string ageTo, string gender, string jobTitle, string department, 
         string currentFio, string currentAgeFrom, string currentAgeTo, string currentGender, string currentJobTitle, string currentDepartment, 
         string filterOptions)
     {
         // Get filtered data 
-        var holdays = _unitOfWork.GetHolidays(x => string.IsNullOrEmpty(fio) || x.User.FIO.Contains(fio)); 
-        var currentHoldays = _unitOfWork.GetHolidays(x => string.IsNullOrEmpty(currentFio) || x.User.FIO.Contains(currentFio)); 
+        var holdays = _unitOfWork.GetVacations(x => string.IsNullOrEmpty(fio) || x.Employee.FIO.Contains(fio)); 
+        var currentHoldays = _unitOfWork.GetVacations(x => string.IsNullOrEmpty(currentFio) || x.Employee.FIO.Contains(currentFio)); 
         holdays.AddRange(currentHoldays); 
 
         // Find intersections if necessary 
@@ -101,17 +101,17 @@ public class HomeController : Controller
         }
         
         // Insert filtered data and get UID 
-        string uid = _unitOfWork.InsertFilteredHolidays(holdays); 
+        string uid = _unitOfWork.InsertFilteredVacations(holdays); 
 
         // Store UID and  in views 
-        TempData[StringHelper.HolidaysUidStr] = uid; 
+        TempData[StringHelper.VacationsUidStr] = uid; 
 
         // Store info about filtering 
-        TempData[StringHelper.FilterInfoHolidaysStr] = StringHelper.GetFilterOptionsString(fio, ageFrom, ageTo, gender, jobTitle, department);  
-        TempData[StringHelper.UserInfoHolidaysStr] = StringHelper.GetFilterOptionsString(currentFio, currentAgeFrom, currentAgeTo, currentGender, currentJobTitle, currentDepartment);  
-        TempData[StringHelper.FilterOptionsHolidaysStr] = filterOptions; 
+        TempData[StringHelper.FilterInfoVacationsStr] = StringHelper.GetFilterOptionsString(fio, ageFrom, ageTo, gender, jobTitle, department);  
+        TempData[StringHelper.EmployeeInfoVacationsStr] = StringHelper.GetFilterOptionsString(currentFio, currentAgeFrom, currentAgeTo, currentGender, currentJobTitle, currentDepartment);  
+        TempData[StringHelper.FilterOptionsVacationsStr] = filterOptions; 
 
-        return RedirectToAction("Holidays");
+        return RedirectToAction("Vacations");
     }
 
     public IActionResult Privacy()

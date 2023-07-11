@@ -6,138 +6,138 @@ namespace TekoEmployeesMvc.Models;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private GenericRepository<User> userRepository;
-    private GenericRepository<Holiday> holidayRepository;
-    private FilteredRepository<User> userRepositoryFiltered;
-    private FilteredRepository<Holiday> holidayRepositoryFiltered;
+    private GenericRepository<Employee> employeeRepository;
+    private GenericRepository<Vacation> vacationRepository;
+    private FilteredRepository<Employee> employeeRepositoryFiltered;
+    private FilteredRepository<Vacation> vacationRepositoryFiltered;
 
-    public GenericRepository<User> UserRepository
+    public GenericRepository<Employee> EmployeeRepository
     {
         get
         {
-            if (this.userRepository == null)
+            if (this.employeeRepository == null)
             {
-                this.userRepository = new GenericRepository<User>();
+                this.employeeRepository = new GenericRepository<Employee>();
             }
-            return userRepository;
+            return employeeRepository;
         }
     }
-    public GenericRepository<Holiday> HolidayRepository
+    public GenericRepository<Vacation> VacationRepository
     {
         get
         {
-            if (this.holidayRepository == null)
+            if (this.vacationRepository == null)
             {
-                this.holidayRepository = new GenericRepository<Holiday>();
+                this.vacationRepository = new GenericRepository<Vacation>();
             }
-            return holidayRepository;
+            return vacationRepository;
         }
     }
-    public FilteredRepository<User> UserRepositoryFiltered
+    public FilteredRepository<Employee> EmployeeRepositoryFiltered
     {
         get
         {
-            if (this.userRepositoryFiltered == null)
+            if (this.employeeRepositoryFiltered == null)
             {
-                this.userRepositoryFiltered = new FilteredRepository<User>();
+                this.employeeRepositoryFiltered = new FilteredRepository<Employee>();
             }
-            return userRepositoryFiltered;
+            return employeeRepositoryFiltered;
         }
     }
-    public FilteredRepository<Holiday> HolidayRepositoryFiltered
+    public FilteredRepository<Vacation> VacationRepositoryFiltered
     {
         get
         {
-            if (this.holidayRepositoryFiltered == null)
+            if (this.vacationRepositoryFiltered == null)
             {
-                this.holidayRepositoryFiltered = new FilteredRepository<Holiday>();
+                this.vacationRepositoryFiltered = new FilteredRepository<Vacation>();
             }
-            return holidayRepositoryFiltered;
+            return vacationRepositoryFiltered;
         }
     }
 
     public UnitOfWork()
     {
-        var pipeParams = new PipeParams(ConfigHelper.UserQty, ConfigHelper.HolidayIntervals);
+        var pipeParams = new PipeParams(ConfigHelper.EmployeeQty, ConfigHelper.VacationIntervals);
         var result = new PipeResult(pipeParams); 
         
         var generatingPipe = new PipeBuilder(InsertIntoRepository)
-            .AddGenerating(typeof(UserPipe))
-            .AddGenerating(typeof(HolidayPipe))
+            .AddGenerating(typeof(EmployeePipe))
+            .AddGenerating(typeof(VacationPipe))
             .Build(); 
         generatingPipe(result); 
     }
-    public void FindHolidaysByFIO(string fio)
+    public void FindVacationsByFIO(string fio)
     {
-        // Find user 
-        var users = UserRepository.Get(filter: x => x.FIO == fio).ToList(); 
-        if (users.Count == 0) 
+        // Find employee 
+        var employees = EmployeeRepository.Get(filter: x => x.FIO == fio).ToList(); 
+        if (employees.Count == 0) 
             return; 
         
-        // Find holidays for the specified user 
-        var holidays = HolidayRepository.Get(filter: x => x.User.FIO == fio); 
-        foreach (var holiday in holidays)
+        // Find vacations for the specified employee 
+        var vacations = VacationRepository.Get(filter: x => x.Employee.FIO == fio); 
+        foreach (var vacation in vacations)
         {
-            System.Console.WriteLine($"FIO: {fio}, BeginDate: {holiday.BeginDate}, EndDate: {holiday.EndDate}"); 
+            System.Console.WriteLine($"FIO: {fio}, BeginDate: {vacation.BeginDate}, EndDate: {vacation.EndDate}"); 
         }
     }
-    public List<User> GetUsers(Expression<Func<User, bool>> filter = null)
+    public List<Employee> GetEmployees(Expression<Func<Employee, bool>> filter = null)
     {
-        return UserRepository.Get(filter: filter).ToList(); 
+        return EmployeeRepository.Get(filter: filter).ToList(); 
     }
-    public List<Holiday> GetHolidays(Expression<Func<Holiday, bool>> filter = null)
+    public List<Vacation> GetVacations(Expression<Func<Vacation, bool>> filter = null)
     {
-        return HolidayRepository.Get(filter: filter).ToList(); 
+        return VacationRepository.Get(filter: filter).ToList(); 
     }
-    public void InsertHoliday(string fio, System.DateTime begin, System.DateTime end)
+    public void InsertVacation(string fio, System.DateTime begin, System.DateTime end)
     {
-        System.Console.WriteLine("Insert the holiday for the specified user");
+        System.Console.WriteLine("Insert the vacation for the specified employee");
 
-        // Find user 
-        var users = UserRepository.Get(filter: x => x.FIO == fio).ToList(); 
-        if (users.Count == 0) 
+        // Find employee 
+        var employees = EmployeeRepository.Get(filter: x => x.FIO == fio).ToList(); 
+        if (employees.Count == 0) 
             return; 
         
-        // Check if the holidays overlap 
-        var holidays = HolidayRepository
-            .Get(filter: x => x.User.FIO == fio
+        // Check if the vacations overlap 
+        var vacations = VacationRepository
+            .Get(filter: x => x.Employee.FIO == fio
                             && (
                                 (x.BeginDate <= begin && x.EndDate > begin) 
                                 || (x.BeginDate <= end && x.EndDate > end)
                             )).ToList(); 
-        if (holidays.Count == 0)
+        if (vacations.Count == 0)
         {
-            HolidayRepository.Insert(
-                new Holiday
+            VacationRepository.Insert(
+                new Vacation
                 {
                     BeginDate = begin, 
                     EndDate = end,
-                    User = users.First()
+                    Employee = employees.First()
                 });
         }
     }
-    public string InsertFilteredUsers(IEnumerable<User> entities)
+    public string InsertFilteredEmployees(IEnumerable<Employee> entities)
     {
-        return UserRepositoryFiltered.InsertFiltered(entities); 
+        return EmployeeRepositoryFiltered.InsertFiltered(entities); 
     }
-    public string InsertFilteredHolidays(IEnumerable<Holiday> entities)
+    public string InsertFilteredVacations(IEnumerable<Vacation> entities)
     {
-        return HolidayRepositoryFiltered.InsertFiltered(entities); 
+        return VacationRepositoryFiltered.InsertFiltered(entities); 
     }
-    public IEnumerable<User> GetFilteredUsers(string uid)
+    public IEnumerable<Employee> GetFilteredEmployees(string uid)
     {
-        return UserRepositoryFiltered.GetFiltered(uid); 
+        return EmployeeRepositoryFiltered.GetFiltered(uid); 
     }
-    public IEnumerable<Holiday> GetFilteredHolidays(string uid)
+    public IEnumerable<Vacation> GetFilteredVacations(string uid)
     {
-        return HolidayRepositoryFiltered.GetFiltered(uid); 
+        return VacationRepositoryFiltered.GetFiltered(uid); 
     }
     private void InsertIntoRepository(PipeResult result)
     {
         System.Console.WriteLine("data added into the repository"); 
-        foreach (var user in result.Users)
-            UserRepository.Insert(user); 
-        foreach (var holiday in result.Holidays)
-            HolidayRepository.Insert(holiday);
+        foreach (var employee in result.Employees)
+            EmployeeRepository.Insert(employee); 
+        foreach (var vacation in result.Vacations)
+            VacationRepository.Insert(vacation);
     }
 }

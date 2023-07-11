@@ -15,7 +15,13 @@
 
 ## Скриншоты 
 
-![users_nofilter](docs/img/users_nofilter.png)
+Сотрудники: 
+
+![employees_nofilter](docs/img/employees_nofilter.png)
+
+Отпуска:
+
+![vacations_nofilter](docs/img/vacations_nofilter.png)
 
 TODO: 
 - Плохо выглядит ui для опций фильтрации (лучше использовать чекбокс вместо комбобокса; отображение отфильтрованной информации); 

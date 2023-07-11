@@ -7,31 +7,31 @@ namespace Tests.TekoEmployeesMvc;
 
 public class GenericRepositoryTest
 {
-    private GenericRepository<User> Users; 
-    private GenericRepository<Holiday> Holidays; 
+    private GenericRepository<Employee> Employees; 
+    private GenericRepository<Vacation> Vacations; 
 
     [Fact]
     public void Get_UsingTheFunctionAfterConstructor_ReturnsEmptyCollections()
     {
         // Arrange 
-        Users = new GenericRepository<User>();
-        Holidays = new GenericRepository<Holiday>();
+        Employees = new GenericRepository<Employee>();
+        Vacations = new GenericRepository<Vacation>();
 
         // Act 
-        var userCollection = Users.Get(); 
-        var holidayCollection = Holidays.Get(); 
+        var employeeCollection = Employees.Get(); 
+        var vacationCollection = Vacations.Get(); 
 
         // Assert 
-        Assert.True(userCollection.ToList().Count == 0); 
-        Assert.True(holidayCollection.ToList().Count == 0); 
+        Assert.True(employeeCollection.ToList().Count == 0); 
+        Assert.True(vacationCollection.ToList().Count == 0); 
     }
 
     public void Insert_InsertOneRecord_OneElementsInsideReturnedCollection()
     {
         // Arrange 
-        Users = new GenericRepository<User>();
-        Holidays = new GenericRepository<Holiday>();
-        var user = new User() 
+        Employees = new GenericRepository<Employee>();
+        Vacations = new GenericRepository<Vacation>();
+        var employee = new Employee() 
         {
             FIO = "Random FIO", 
             Gender = Gender.Male, 
@@ -39,23 +39,23 @@ public class GenericRepositoryTest
             Department = Department.Administration, 
             BirthDate = new System.DateTime(1978, 12, 01)
         }; 
-        var holiday = new Holiday() 
+        var vacation = new Vacation() 
         {
             BeginDate = new System.DateTime(2023, 05, 11), 
             EndDate = new System.DateTime(2023, 05, 18), 
-            User = user 
+            Employee = employee 
         }; 
 
         // Act 
-        Users.Insert(user); 
-        Holidays.Insert(holiday); 
-        var userCollection = Users.Get(); 
-        var holidayCollection = Holidays.Get(); 
+        Employees.Insert(employee); 
+        Vacations.Insert(vacation); 
+        var employeeCollection = Employees.Get(); 
+        var vacationCollection = Vacations.Get(); 
 
         // Assert 
-        Assert.True(userCollection.ToList().Count == 1); 
-        Assert.True(holidayCollection.ToList().Count == 1); 
-        Assert.True(userCollection.Where(x => x.FIO == user.FIO).ToList().Count == 1); 
-        Assert.True(holidayCollection.Where(x => x.User.FIO == user.FIO).ToList().Count == 1); 
+        Assert.True(employeeCollection.ToList().Count == 1); 
+        Assert.True(vacationCollection.ToList().Count == 1); 
+        Assert.True(employeeCollection.Where(x => x.FIO == employee.FIO).ToList().Count == 1); 
+        Assert.True(vacationCollection.Where(x => x.Employee.FIO == employee.FIO).ToList().Count == 1); 
     }
 }

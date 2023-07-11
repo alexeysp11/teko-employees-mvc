@@ -1,19 +1,19 @@
-@model IEnumerable<User>
+@model IEnumerable<Employee>
 @{
-    ViewData["Title"] = "Users";
+    ViewData["Title"] = "Employees";
     var jobTitles = System.Enum.GetValues(typeof(TekoEmployeesMvc.Models.JobTitle)); 
     var departments = System.Enum.GetValues(typeof(TekoEmployeesMvc.Models.Department)); 
 }
 
 <div class="text-center">
-    <h1 class="display-4">Users</h1>
-    <form method="post" asp-controller="Home" asp-action="FilterUsers" role="post"> 
+    <h1 class="display-4">Employees</h1>
+    <form method="post" asp-controller="Home" asp-action="FilterEmployees" role="post"> 
         <label>FIO: </label>
         <input type="text" placeholder="Enter FIO" name="fio">
         <label>Age: </label>
-        <input type="text" placeholder="Enter age (from)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="ageFrom">
+        <input type="text" placeholder="Enter age (max.)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="ageFrom">
         <label>-</label>
-        <input type="text" placeholder="Enter age (to)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="ageTo">
+        <input type="text" placeholder="Enter age (min.)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="ageTo">
         <label>Gender: </label>
         <select name="gender">
             <option></option>
@@ -47,13 +47,13 @@
     </form>
 </div>
 
-<label><b>Filters:</b> @TempData["filterInfoUsers"]</label>
+<label><b>Filters:</b> @TempData["filterInfoEmployees"]</label>
 <br>
-<label><b>Filter options:</b> @TempData["filterOptionsUsers"]</label>
+<label><b>Filter options:</b> @TempData["filterOptionsEmployees"]</label>
 
 @if (Model == null)
 {
-    <label>Users are not generated yet...</label>
+    <label>Employees are not generated yet...</label>
 }
 else
 {

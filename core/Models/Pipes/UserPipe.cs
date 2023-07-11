@@ -3,15 +3,15 @@ using TekoEmployeesMvc.Helpers;
 
 namespace TekoEmployeesMvc.Models;
 
-public class UserPipe : AbstractPipe
+public class EmployeePipe : AbstractPipe
 {
-    public UserPipe(System.Action<PipeResult> function) : base(function)
+    public EmployeePipe(System.Action<PipeResult> function) : base(function)
     {
     }
     public override void Handle(PipeResult result)
     {
-        IUserGenerator generator = new UserGenerator(); 
-        result.Users = generator.GenerateUsers(result.PipeParams.UserQty, base.GenerateDate); 
+        IEmployeeGenerator generator = new EmployeeGenerator(); 
+        result.Employees = generator.GenerateEmployees(result.PipeParams.EmployeeQty, base.GenerateDate); 
         _function(result); 
     }
 }

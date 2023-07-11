@@ -2,4 +2,10 @@
 
 ## Screenshots 
 
-![users_nofilter](docs/img/users_nofilter.png)
+Employees: 
+
+![employees_nofilter](docs/img/employees_nofilter.png)
+
+Vacations: 
+
+![vacations_nofilter](docs/img/vacations_nofilter.png)

@@ -1,20 +1,20 @@
-@model IEnumerable<Holiday>
+@model IEnumerable<Vacation>
 @{
-    ViewData["Title"] = "Holidays Page";
+    ViewData["Title"] = "Vacations Page";
     var jobTitles = System.Enum.GetValues(typeof(TekoEmployeesMvc.Models.JobTitle)); 
     var departments = System.Enum.GetValues(typeof(TekoEmployeesMvc.Models.Department)); 
 }
 
 <div class="text-center">
-    <h1 class="display-4">Holidays</h1>
+    <h1 class="display-4">Vacations</h1>
     <label>Filter</label>
-    <form method="post" asp-controller="Home" asp-action="FilterHolidays" role="post"> 
+    <form method="post" asp-controller="Home" asp-action="FilterVacations" role="post"> 
         <label>FIO: </label>
         <input type="text" placeholder="Enter FIO" name="fio">
         <label>Age: </label>
-        <input type="text" placeholder="Enter age (from)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="ageFrom">
+        <input type="text" placeholder="Enter age (max.)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="ageFrom">
         <label>-</label>
-        <input type="text" placeholder="Enter age (to)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="ageTo">
+        <input type="text" placeholder="Enter age (min.)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="ageTo">
         <label>Gender: </label>
         <select name="gender">
             <option></option>
@@ -39,14 +39,14 @@
         </select>
         <br>
 
-        <label>Current user</label>
+        <label>Current employee</label>
         <br>
         <label>FIO: </label>
         <input type="text" placeholder="Enter FIO" name="currentFio">
         <label>Age: </label>
-        <input type="text" placeholder="Enter age (from)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="currentAgeFrom">
+        <input type="text" placeholder="Enter age (max.)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="currentAgeFrom">
         <label>-</label>
-        <input type="text" placeholder="Enter age (to)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="currentAgeTo">
+        <input type="text" placeholder="Enter age (min.)" oninput="this.value = this.value.replace(/[^0-9]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  name="currentAgeTo">
         <label>Gender: </label>
         <select name="currentGender">
             <option></option>
@@ -81,15 +81,15 @@
     </form>
 </div>
 
-<label><b>Filters:</b> @TempData["filterInfoHolidays"]</label>
+<label><b>Filters:</b> @TempData["filterInfoVacations"]</label>
 <br>
-<label><b>Current user:</b> @TempData["userInfoHolidays"]</label>
+<label><b>Current employee:</b> @TempData["employeeInfoVacations"]</label>
 <br>
-<label><b>Filter options:</b> @TempData["filterOptionsHolidays"]</label>
+<label><b>Filter options:</b> @TempData["filterOptionsVacations"]</label>
 
 @if (Model == null)
 {
-    <label>Users are not generated yet...</label>
+    <label>Employees are not generated yet...</label>
 }
 else
 {
@@ -122,21 +122,21 @@ else
         <tbody>
             @foreach (var obj in Model)
             {
-                var age = System.DateTime.Now.Year - obj.User.BirthDate.Year;
-                if (obj.User.BirthDate.Month > System.DateTime.Now.Month && obj.User.BirthDate.Day > System.DateTime.Now.Day)
+                var age = System.DateTime.Now.Year - obj.Employee.BirthDate.Year;
+                if (obj.Employee.BirthDate.Month > System.DateTime.Now.Month && obj.Employee.BirthDate.Day > System.DateTime.Now.Day)
                     age -= 1; 
                 <tr>
                     <td>
-                        @obj.User.FIO
+                        @obj.Employee.FIO
                     </td>
                     <td>
-                        @obj.User.Gender
+                        @obj.Employee.Gender
                     </td>
                     <td>
-                        @obj.User.JobTitle
+                        @obj.Employee.JobTitle
                     </td>
                     <td>
-                        @obj.User.Department
+                        @obj.Employee.Department
                     </td>
                     <td>
                         @age

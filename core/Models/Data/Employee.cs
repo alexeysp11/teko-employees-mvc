@@ -1,6 +1,6 @@
 ﻿namespace TekoEmployeesMvc.Models;
 
-public class User
+public class Employee
 {
     public string FIO { get; set; }
     public Gender Gender { get; set; }

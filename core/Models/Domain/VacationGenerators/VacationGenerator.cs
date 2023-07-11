@@ -1,15 +1,15 @@
 namespace TekoEmployeesMvc.Models;
 
-public class HolidayGenerator : IHolidayGenerator
+public class VacationGenerator : IVacationGenerator
 {
-    public List<Holiday> GenerateHolidays(
-        User user, 
-        int[] holidayIntervals, 
+    public List<Vacation> GenerateVacations(
+        Employee employee, 
+        int[] vacationIntervals, 
         System.Func<System.DateTime, System.DateTime, System.DateTime> generateDate)
     {
-        var result = new List<Holiday>(); 
+        var result = new List<Vacation>(); 
         var year = System.DateTime.Now.Year; 
-        foreach (var interval in holidayIntervals)
+        foreach (var interval in vacationIntervals)
         {
             System.DateTime start; 
             System.DateTime end; 
@@ -19,13 +19,13 @@ public class HolidayGenerator : IHolidayGenerator
                 end = start.AddDays(interval); 
             }
             while (end.Year != year); 
-            var holiday = new Holiday 
+            var vacation = new Vacation 
             {
                 BeginDate = start, 
                 EndDate = end, 
-                User = user
+                Employee = employee
             };
-            result.Add(holiday); 
+            result.Add(vacation); 
         }
         return result; 
     }

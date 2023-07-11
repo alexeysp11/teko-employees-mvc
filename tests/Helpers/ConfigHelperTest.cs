@@ -7,8 +7,8 @@ namespace Tests.TekoEmployeesMvc;
 public class ConfigHelperTest
 {
     [Fact]
-    public void HolidayQty()
+    public void VacationQty()
     {
-        Assert.True(ConfigHelper.UserQty * ConfigHelper.HolidayIntervals.Length == ConfigHelper.HolidayQty); 
+        Assert.True(ConfigHelper.EmployeeQty * ConfigHelper.VacationIntervals.Length == ConfigHelper.VacationQty); 
     }
 }

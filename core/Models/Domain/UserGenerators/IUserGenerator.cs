@@ -1,8 +1,8 @@
 namespace TekoEmployeesMvc.Models;
 
-public interface IUserGenerator
+public interface IEmployeeGenerator
 {
-    List<User> GenerateUsers(
+    List<Employee> GenerateEmployees(
         int count, 
         System.Func<System.DateTime, System.DateTime, System.DateTime> generateDate); 
 }

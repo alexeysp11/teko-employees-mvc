@@ -15,11 +15,11 @@ public class UnitOfWorkTest
         UnitOfWork = new UnitOfWork(); 
 
         // Act 
-        var users = UnitOfWork.GetUsers(); 
-        var holidays = UnitOfWork.GetHolidays(); 
+        var employees = UnitOfWork.GetEmployees(); 
+        var vacations = UnitOfWork.GetVacations(); 
 
         // Assert 
-        Assert.True(users.Count == ConfigHelper.UserQty); 
-        Assert.True(holidays.Count == ConfigHelper.HolidayQty); 
+        Assert.True(employees.Count == ConfigHelper.EmployeeQty); 
+        Assert.True(vacations.Count == ConfigHelper.VacationQty); 
     }
 }

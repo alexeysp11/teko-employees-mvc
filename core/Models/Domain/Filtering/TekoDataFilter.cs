@@ -5,11 +5,11 @@ namespace TekoEmployeesMvc.Models;
 
 public class TekoDataFilter : ITekoDataFilter
 {
-    public IEnumerable<User> FilterUsers(string fio, string ageMin, string ageMax, string gender, string jobTitle, string department, 
-        string filterOptions, Func<Expression<Func<User, bool>>, List<User>> getUsers)
+    public IEnumerable<Employee> FilterEmployees(string fio, string ageMin, string ageMax, string gender, string jobTitle, string department, 
+        string filterOptions, Func<Expression<Func<Employee, bool>>, List<Employee>> getEmployees)
     {
-        int ageMinInt = ConfigHelper.UserMinAge; 
-        int ageMaxInt = ConfigHelper.UserMaxAge; 
+        int ageMinInt = ConfigHelper.EmployeeMinAge; 
+        int ageMaxInt = ConfigHelper.EmployeeMaxAge; 
         if (!string.IsNullOrEmpty(ageMin))
         {
             if (!System.Int32.TryParse(ageMin, out ageMinInt)) 
@@ -20,25 +20,25 @@ public class TekoDataFilter : ITekoDataFilter
             if (!System.Int32.TryParse(ageMax, out ageMaxInt)) 
                 throw new System.Exception("Unable to convert string parameter 'ageMax' to integer"); 
         }
-        return FilterUsers(fio, ageMinInt, ageMaxInt, gender, jobTitle, department, filterOptions, getUsers); 
+        return FilterEmployees(fio, ageMinInt, ageMaxInt, gender, jobTitle, department, filterOptions, getEmployees); 
     }
 
-    public IEnumerable<User> FilterUsers(string fio, int ageMin, int ageMax, string gender, string jobTitle, string department, 
-        string filterOptions, Func<Expression<Func<User, bool>>, List<User>> getUsers)
+    public IEnumerable<Employee> FilterEmployees(string fio, int ageMin, int ageMax, string gender, string jobTitle, string department, 
+        string filterOptions, Func<Expression<Func<Employee, bool>>, List<Employee>> getEmployees)
     {
         var dateMin = System.DateTime.Now.AddYears(-ageMax); 
         var dateMax = System.DateTime.Now.AddYears(-ageMin); 
-        return FilterUsers(fio, dateMin, dateMax, gender, jobTitle, department, filterOptions, getUsers); 
+        return FilterEmployees(fio, dateMin, dateMax, gender, jobTitle, department, filterOptions, getEmployees); 
     }
 
-    public IEnumerable<User> FilterUsers(string fio, System.DateTime dateMin, System.DateTime dateMax, string gender, string jobTitle, string department, 
-        string filterOptions, Func<Expression<Func<User, bool>>, List<User>> getUsers)
+    public IEnumerable<Employee> FilterEmployees(string fio, System.DateTime dateMin, System.DateTime dateMax, string gender, string jobTitle, string department, 
+        string filterOptions, Func<Expression<Func<Employee, bool>>, List<Employee>> getEmployees)
     {
-        IEnumerable<User> result; 
+        IEnumerable<Employee> result; 
         if (!string.IsNullOrEmpty(fio) && !string.IsNullOrEmpty(gender)
             && !string.IsNullOrEmpty(jobTitle) && !string.IsNullOrEmpty(department))
         {
-            result = getUsers(x => 
+            result = getEmployees(x => 
                 x.FIO.Contains(fio) 
                 && x.Gender.ToString() == gender
                 && x.BirthDate >= dateMin 
@@ -48,7 +48,7 @@ public class TekoDataFilter : ITekoDataFilter
         }
         else 
         {
-            result = getUsers(x => x.BirthDate >= dateMin && x.BirthDate <= dateMax); 
+            result = getEmployees(x => x.BirthDate >= dateMin && x.BirthDate <= dateMax); 
             if (!string.IsNullOrEmpty(fio))
                 result = result.Where(x => x.FIO.Contains(fio)); 
             if (!string.IsNullOrEmpty(gender))

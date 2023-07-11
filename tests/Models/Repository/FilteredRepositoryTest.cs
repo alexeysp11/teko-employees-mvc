@@ -6,8 +6,8 @@ namespace Tests.TekoEmployeesMvc;
 
 public class FilteredRepositoryTest
 {
-    private FilteredRepository<User> Users; 
-    private FilteredRepository<Holiday> Holidays; 
+    private FilteredRepository<Employee> Employees; 
+    private FilteredRepository<Vacation> Vacations; 
 
     [Theory]
     [InlineData("")]
@@ -15,15 +15,15 @@ public class FilteredRepositoryTest
     public void GetFiltered_IncorrectUid_ThrowsException(string uid)
     {
         // Arrange 
-        Users = new FilteredRepository<User>();
-        Holidays = new FilteredRepository<Holiday>();
+        Employees = new FilteredRepository<Employee>();
+        Vacations = new FilteredRepository<Vacation>();
 
         // Act 
-        Action actUsers = () => Users.GetFiltered(uid); 
-        Action actHolidays = () => Holidays.GetFiltered(uid); 
+        Action actEmployees = () => Employees.GetFiltered(uid); 
+        Action actVacations = () => Vacations.GetFiltered(uid); 
 
         // Assert 
-        System.Exception exceptionUsers = Assert.Throws<System.Exception>(actUsers);
-        System.Exception exceptionHolidays = Assert.Throws<System.Exception>(actHolidays);
+        System.Exception exceptionEmployees = Assert.Throws<System.Exception>(actEmployees);
+        System.Exception exceptionVacations = Assert.Throws<System.Exception>(actVacations);
     }
 }

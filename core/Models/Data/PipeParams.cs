@@ -4,12 +4,12 @@ namespace TekoEmployeesMvc.Models;
 
 public class PipeParams
 {
-    public int UserQty { get; }
-    public int[] HolidayIntervals { get; }
+    public int EmployeeQty { get; }
+    public int[] VacationIntervals { get; }
     
-    public PipeParams(int userQty, int[] holidayIntervals)
+    public PipeParams(int employeeQty, int[] vacationIntervals)
     {
-        UserQty = userQty; 
-        HolidayIntervals = holidayIntervals; 
+        EmployeeQty = employeeQty; 
+        VacationIntervals = vacationIntervals; 
     }
 }

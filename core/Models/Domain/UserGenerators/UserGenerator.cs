@@ -2,16 +2,16 @@ using TekoEmployeesMvc.Helpers;
 
 namespace TekoEmployeesMvc.Models;
 
-public class UserGenerator : IUserGenerator
+public class EmployeeGenerator : IEmployeeGenerator
 {
-    public List<User> GenerateUsers(
+    public List<Employee> GenerateEmployees(
         int count, 
         System.Func<System.DateTime, System.DateTime, System.DateTime> generateDate)
     {
-        var users = new List<User>(); 
+        var employees = new List<Employee>(); 
         for (int i = 0; i < count; i++)
         {
-            var user = new User 
+            var employee = new Employee 
             {
                 FIO = GenerateFIO(),
                 Gender = GenerateEnum<Gender>(),
@@ -19,17 +19,17 @@ public class UserGenerator : IUserGenerator
                 Department = GenerateEnum<Department>(),
                 BirthDate = GenerateBirthDate(generateDate)
             };
-            users.Add(user); 
+            employees.Add(employee); 
         }
-        return users; 
+        return employees; 
     }
     private string GenerateFIO()
     {
         var finalString = string.Empty; 
         var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        var stringChars = new char[ConfigHelper.UserFioLength];
+        var stringChars = new char[ConfigHelper.EmployeeFioLength];
         var random = new Random();
-        for (int i = 0; i < ConfigHelper.UserFioWordsNumber; i++)
+        for (int i = 0; i < ConfigHelper.EmployeeFioWordsNumber; i++)
         {
             for (int j = 0; j < stringChars.Length; j++)
                 stringChars[j] = chars[random.Next(chars.Length)];
@@ -45,8 +45,8 @@ public class UserGenerator : IUserGenerator
     }
     private System.DateTime GenerateBirthDate(System.Func<System.DateTime, System.DateTime, System.DateTime> generateDate)
     {
-        System.DateTime start = System.DateTime.Now.AddYears(-ConfigHelper.UserMaxAge); 
-        System.DateTime end = System.DateTime.Now.AddYears(-ConfigHelper.UserMinAge); 
+        System.DateTime start = System.DateTime.Now.AddYears(-ConfigHelper.EmployeeMaxAge); 
+        System.DateTime end = System.DateTime.Now.AddYears(-ConfigHelper.EmployeeMinAge); 
         return generateDate(start, end); 
     }
 }
