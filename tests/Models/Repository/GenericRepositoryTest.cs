@@ -7,19 +7,16 @@ namespace Tests.TekoEmployeesMvc;
 
 public class GenericRepositoryTest
 {
-    private GenericRepository<Employee> Employees; 
-    private GenericRepository<Vacation> Vacations; 
-
     [Fact]
     public void Get_UsingTheFunctionAfterConstructor_ReturnsEmptyCollections()
     {
         // Arrange 
-        Employees = new GenericRepository<Employee>();
-        Vacations = new GenericRepository<Vacation>();
+        var employees = new GenericRepository<Employee>();
+        var vacations = new GenericRepository<Vacation>();
 
         // Act 
-        var employeeCollection = Employees.Get(); 
-        var vacationCollection = Vacations.Get(); 
+        var employeeCollection = employees.Get(); 
+        var vacationCollection = vacations.Get(); 
 
         // Assert 
         Assert.True(employeeCollection.ToList().Count == 0); 
@@ -29,8 +26,8 @@ public class GenericRepositoryTest
     public void Insert_InsertOneRecord_OneElementsInsideReturnedCollection()
     {
         // Arrange 
-        Employees = new GenericRepository<Employee>();
-        Vacations = new GenericRepository<Vacation>();
+        var employees = new GenericRepository<Employee>();
+        var vacations = new GenericRepository<Vacation>();
         var employee = new Employee() 
         {
             FIO = "Random FIO", 
@@ -47,10 +44,10 @@ public class GenericRepositoryTest
         }; 
 
         // Act 
-        Employees.Insert(employee); 
-        Vacations.Insert(vacation); 
-        var employeeCollection = Employees.Get(); 
-        var vacationCollection = Vacations.Get(); 
+        employees.Insert(employee); 
+        vacations.Insert(vacation); 
+        var employeeCollection = employees.Get(); 
+        var vacationCollection = vacations.Get(); 
 
         // Assert 
         Assert.True(employeeCollection.ToList().Count == 1); 

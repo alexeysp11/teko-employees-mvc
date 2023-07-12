@@ -50,15 +50,15 @@ public static class StringHelper
     /// </summary>
     public readonly static string FindFilterOptionsExcludeEmployee = "Exclude employee"; 
     /// <summary>
-    /// 
+    /// Options for showing all filtered elements on the Vacations page 
     /// </summary>
     public readonly static string FindFilterOptionsShowAllFilteredVacations = "Find all filtered vacations"; 
     /// <summary>
-    /// 
+    /// Options for showing only intersections on the Vacations page 
     /// </summary>
     public readonly static string FindFilterOptionsShowIntersections = "Show intersections"; 
     /// <summary>
-    /// 
+    /// Options for excluding intersections on the Vacations page 
     /// </summary>
     public readonly static string FindFilterOptionsExcludeIntersections = "Exclude intersections"; 
     #endregion  // Filter options

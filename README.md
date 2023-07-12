@@ -1,5 +1,7 @@
 # teko-employees-mvc
 
+Read this in other languages: [English](README.md), [Russian/Русский](README.ru.md).
+
 ## Requirements  
 
 1. Generate randomly "employees of the company": 100 user objects (full name, gender, position (listing 10 positions), age).
@@ -13,7 +15,7 @@
 5. It is desirable to use LINQ, lambda expressions.
 6. It is desirable to choose the most efficient algorithm for determining intersections.
 
-## Screenshots 
+## Using the application 
 
 Employees: 
 
@@ -22,3 +24,5 @@ Employees:
 Vacations: 
 
 ![vacations_nofilter](docs/img/vacations_nofilter.png)
+
+[Click here](docs/examples.md) to find some examples of how to use the filters. 

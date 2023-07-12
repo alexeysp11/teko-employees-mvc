@@ -6,17 +6,15 @@ namespace Tests.TekoEmployeesMvc;
 
 public class UnitOfWorkTest
 {
-    private IUnitOfWork UnitOfWork; 
-
     [Fact]
     public void Constructor_CorrectNumberOfGeneratedElements()
     {
         // Arrange
-        UnitOfWork = new UnitOfWork(); 
+        var unitOfWork = new UnitOfWork(); 
 
         // Act 
-        var employees = UnitOfWork.GetEmployees(); 
-        var vacations = UnitOfWork.GetVacations(); 
+        var employees = unitOfWork.GetEmployees(); 
+        var vacations = unitOfWork.GetVacations(); 
 
         // Assert 
         Assert.True(employees.Count == ConfigHelper.EmployeeQty); 
