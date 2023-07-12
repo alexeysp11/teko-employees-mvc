@@ -3,8 +3,15 @@ using TekoEmployeesMvc.Helpers;
 
 namespace TekoEmployeesMvc.Models;
 
+/// <summary>
+/// Class for applying filters against initial datasets 
+/// </summary>
 public class TekoDataFilter : ITekoDataFilter
 {
+    #region Filter employees
+    /// <summary>
+    /// Applies filter to the employees collection
+    /// </summary>
     public IEnumerable<Employee> FilterEmployees(string fio, string ageMin, string ageMax, string gender, string jobTitle, string department, 
         string filterOptions, Func<Expression<Func<Employee, bool>>, List<Employee>> getEmployees)
     {
@@ -23,7 +30,10 @@ public class TekoDataFilter : ITekoDataFilter
         return FilterEmployees(fio, ageMinInt, ageMaxInt, gender, jobTitle, department, filterOptions, getEmployees); 
     }
 
-    public IEnumerable<Employee> FilterEmployees(string fio, int ageMin, int ageMax, string gender, string jobTitle, string department, 
+    /// <summary>
+    /// Applies filter to the employees collection
+    /// </summary>
+    private IEnumerable<Employee> FilterEmployees(string fio, int ageMin, int ageMax, string gender, string jobTitle, string department, 
         string filterOptions, Func<Expression<Func<Employee, bool>>, List<Employee>> getEmployees)
     {
         var dateMin = System.DateTime.Now.AddYears(-ageMax); 
@@ -31,7 +41,10 @@ public class TekoDataFilter : ITekoDataFilter
         return FilterEmployees(fio, dateMin, dateMax, gender, jobTitle, department, filterOptions, getEmployees); 
     }
 
-    public IEnumerable<Employee> FilterEmployees(string fio, System.DateTime dateMin, System.DateTime dateMax, string gender, string jobTitle, string department, 
+    /// <summary>
+    /// Applies filter to the employees collection
+    /// </summary>
+    private IEnumerable<Employee> FilterEmployees(string fio, System.DateTime dateMin, System.DateTime dateMax, string gender, string jobTitle, string department, 
         string filterOptions, Func<Expression<Func<Employee, bool>>, List<Employee>> getEmployees)
     {
         IEnumerable<Employee> result; 
@@ -60,7 +73,12 @@ public class TekoDataFilter : ITekoDataFilter
         }
         return result; 
     }
+    #endregion  // Filter employees
 
+    #region Filter vacations
+    /// <summary>
+    /// Applies filters to the vacation collection 
+    /// </summary>
     public IEnumerable<Vacation> FilterVacations(string fio, string ageMin, string ageMax, string gender, string jobTitle, string department, 
         string currentFio, string filterOptions, Func<Expression<Func<Employee, bool>>, List<Employee>> getEmployees,
         Func<Expression<Func<Vacation, bool>>, List<Vacation>> getVacations)
@@ -113,4 +131,5 @@ public class TekoDataFilter : ITekoDataFilter
         }
         return vacations; 
     }
+    #endregion  // Filter vacations
 }

@@ -1,5 +1,9 @@
 namespace TekoEmployeesMvc.Models;
 
+
+/// <summary>
+/// Names of all the departments in the company  
+/// </summary>
 public enum Department 
 {
     ERPDevelopment = 1, 

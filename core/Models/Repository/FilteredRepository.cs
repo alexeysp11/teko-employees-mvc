@@ -3,17 +3,32 @@ using TekoEmployeesMvc.Helpers;
 
 namespace TekoEmployeesMvc.Models;
 
+/// <summary>
+/// Allows to interact with the filtered collections 
+/// </summary>
 public class FilteredRepository<TEntity> where TEntity : class
 {
+    /// <summary>
+    /// Filtered dataset 
+    /// </summary>
     private ConcurrentDictionary<string, FilteredRecord<TEntity>> filteredDbSet; 
+    /// <summary>
+    /// Timer for deleting old objects 
+    /// </summary>
     private System.Timers.Timer aTimer;
 
+    /// <summary>
+    /// Basic constructor 
+    /// </summary>
     public FilteredRepository()
     {
         this.filteredDbSet = new ConcurrentDictionary<string, FilteredRecord<TEntity>>(); 
         SetTimer(); 
     }
 
+    /// <summary>
+    /// Retrieves a collection of the filtered objects using its UID 
+    /// </summary>
     public virtual IEnumerable<TEntity> GetFiltered(string uid)
     {
         if (string.IsNullOrEmpty(uid)) throw new System.Exception("UID could not be null or empty"); 
@@ -27,6 +42,9 @@ public class FilteredRepository<TEntity> where TEntity : class
         }
         return list;
     }
+    /// <summary>
+    /// Saves a collection of filtered objects 
+    /// </summary>
     public virtual string InsertFiltered(IEnumerable<TEntity> entities)
     {
         if (entities == null) throw new System.Exception("List of entities could not be null"); 
@@ -45,6 +63,9 @@ public class FilteredRepository<TEntity> where TEntity : class
         return uid; 
     }
 
+    /// <summary>
+    /// Registers a timer 
+    /// </summary>
     private void SetTimer()
     {
         // Create a timer with a two second interval.
@@ -55,6 +76,9 @@ public class FilteredRepository<TEntity> where TEntity : class
         aTimer.AutoReset = true;
         aTimer.Enabled = true;
     }
+    /// <summary>
+    /// Deletes olde values 
+    /// </summary>
     private void OnTimedEvent(object source, System.Timers.ElapsedEventArgs e)
     {
         if (filteredDbSet.Count == 0) 

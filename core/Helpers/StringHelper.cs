@@ -1,22 +1,56 @@
 namespace TekoEmployeesMvc.Helpers;
 
+/// <summary>
+/// Helper for storing commonly used string values 
+/// </summary>
 public static class StringHelper
 {
     #region TempData UID
+    /// <summary>
+    /// Name of a variable for storing UID of initial dataset of employees 
+    /// </summary>
     public readonly static string EmployeesUidStr = "employeesUid"; 
+    /// <summary>
+    /// Name of a variable for storing UID of initial dataset of vacations
+    /// </summary>
     public readonly static string VacationsUidStr = "vacationsUid"; 
+    /// <summary>
+    /// Name of a variable for storing filter info on the Employees page
+    /// </summary>
     public readonly static string FilterInfoEmployeesStr = "filterInfoEmployees"; 
+    /// <summary>
+    /// Name of a variable for storing filter info on the Vacations page
+    /// </summary>
     public readonly static string FilterInfoVacationsStr = "filterInfoVacations"; 
+    /// <summary>
+    /// Name of a variable for storing filter info applied for a "current empolyee" on the Vacations page
+    /// </summary>
     public readonly static string EmployeeInfoVacationsStr = "employeeInfoVacations"; 
-    public readonly static string FilterOptionsVacationsStr = "filterOptionsVacations"; 
+    /// <summary>
+    /// Name of a variable for storing filter options on the Employees page
+    /// </summary>
     public readonly static string FilterOptionsEmployeesStr = "filterOptionsEmployees"; 
+    /// <summary>
+    /// Name of a variable for storing filter options on the Vacations page
+    /// </summary>
+    public readonly static string FilterOptionsVacationsStr = "filterOptionsVacations"; 
     #endregion  // TempData UID
 
     #region Filter options
+    /// <summary>
+    /// Message displayed when no filters applied 
+    /// </summary>
     public readonly static string NoFiltersApplied = "No filters applied"; 
+    /// <summary>
+    /// 
+    /// </summary>
     public readonly static string FindOnlyIntersections = "Find only intersections"; 
     #endregion  // Filter options
 
+    #region Public methods 
+    /// <summary>
+    /// Generates an info message about filter options 
+    /// </summary>
     public static string GetFilterOptionsString(string fio = "", string ageMin = "", string ageMax = "", string gender = "", string jobTitle = "", string department = "")
     {
         // If no filters applied 
@@ -59,4 +93,5 @@ public static class StringHelper
         }
         return result;
     }
+    #endregion  // Public methods 
 }

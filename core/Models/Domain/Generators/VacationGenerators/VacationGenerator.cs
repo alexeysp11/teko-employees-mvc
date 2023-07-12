@@ -1,7 +1,13 @@
 namespace TekoEmployeesMvc.Models;
 
+/// <summary>
+/// Randomly generates a set of vacations 
+/// </summary>
 public class VacationGenerator : IVacationGenerator
 {
+    /// <summary>
+    /// Generates specified number of employees mapped to every employee 
+    /// </summary>
     public List<Vacation> GenerateVacations(
         Employee employee, 
         int[] vacationIntervals, 

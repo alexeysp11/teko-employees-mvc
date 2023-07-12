@@ -5,15 +5,27 @@ using System.Linq.Expressions;
 
 namespace TekoEmployeesMvc.Models;
 
+/// <summary>
+/// Allows to interact with the initial collections 
+/// </summary>
 public class GenericRepository<TEntity> where TEntity : class
 {
+    /// <summary>
+    /// Initial dataset 
+    /// </summary>
     private List<TEntity> dbSet;
 
+    /// <summary>
+    /// Basic constructor 
+    /// </summary>
     public GenericRepository()
     {
         this.dbSet = new List<TEntity>(); 
     }
 
+    /// <summary>
+    /// Gets a collection after applying the specified filtered 
+    /// </summary>
     public virtual IEnumerable<TEntity> Get(
         Expression<Func<TEntity, bool>> filter = null,
         Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null)
@@ -26,6 +38,9 @@ public class GenericRepository<TEntity> where TEntity : class
         return query.ToList();
     }
 
+    /// <summary>
+    /// Adds an object to the dataset 
+    /// </summary>
     public virtual void Insert(TEntity entity)
     {
         if (entity == null) throw new System.Exception("Entity could not be null"); 

@@ -1,5 +1,8 @@
 namespace TekoEmployeesMvc.Models;
 
+/// <summary>
+/// Job titles used in the company 
+/// </summary>
 public enum JobTitle
 {
     ChiefExecutiveOfficer = 1, 

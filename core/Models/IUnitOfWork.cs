@@ -12,7 +12,6 @@ public interface IUnitOfWork
     
     void InsertVacation(string fio, System.DateTime start, System.DateTime end); 
 
-    void FindVacationsByFIO(string fio); 
     List<Employee> GetEmployees(Expression<Func<Employee, bool>> filter = null); 
     List<Vacation> GetVacations(Expression<Func<Vacation, bool>> filter = null); 
 

@@ -3,11 +3,20 @@ using System.Collections.Generic;
 
 namespace TekoEmployeesMvc.Models;
 
+/// <summary>
+/// Pipe component for generating a collection of employees 
+/// </summary>
 public class VacationPipe : AbstractPipe
 {
+    /// <summary>
+    /// Constructor of the pipe complonent 
+    /// </summary>
     public VacationPipe(System.Action<PipeResult> function) : base(function)
     {
     }
+    /// <summary>
+    /// 
+    /// </summary>
     private List<Vacation> GenerateVacations(List<Employee> employees, int[] vacationIntervals)
     {
         var vacations = new List<Vacation>(); 
@@ -19,6 +28,9 @@ public class VacationPipe : AbstractPipe
         }
         return vacations; 
     }
+    /// <summary>
+    /// 
+    /// </summary>
     public static void AddVacation(PipeResult result, string fio, System.DateTime begin, System.DateTime end)
     {
         // Get available slots for the employee 
@@ -41,6 +53,9 @@ public class VacationPipe : AbstractPipe
         };
         result.Vacations.Add(vacation); 
     }
+    /// <summary>
+    /// Method that implements a generating algorithm 
+    /// </summary>
     public override void Handle(PipeResult result)
     {
         result.Vacations = GenerateVacations(result.Employees, result.PipeParams.VacationIntervals); 
