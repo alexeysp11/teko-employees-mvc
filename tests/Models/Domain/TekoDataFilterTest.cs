@@ -13,8 +13,11 @@ public class TekoDataFilterTest
     private ITekoDataFilter TekoDataFilter; 
 
     #region FilterEmployees
-    [Fact]
-    public void FilterEmployees_EmptyParameters_ReturnsIdenticalDataset()
+    [Theory]
+    [InlineData("")]
+    [InlineData("Show")]
+    [InlineData("Exclude")]
+    public void FilterEmployees_EmptyParameters_ReturnsIdenticalDataset(string filterOptionsParams)
     {
         // Arrange
         UnitOfWork = new UnitOfWork(); 
@@ -25,15 +28,17 @@ public class TekoDataFilterTest
         var gender = ""; 
         var jobTitle = ""; 
         var department = ""; 
-        var filterOptions = ""; 
+        var filterOptions = string.IsNullOrEmpty(filterOptionsParams) ? string.Empty 
+            : (filterOptionsParams == "Exclude" ? StringHelper.FindFilterOptionsExcludeEmployee : StringHelper.FindFilterOptionsShowEmployee); 
+        var expectedQty = filterOptionsParams == "Exclude" ? 0 : ConfigHelper.EmployeeQty; 
 
         // Act 
-        var employees = UnitOfWork.GetEmployees().ToList(); 
+        var employees = filterOptionsParams == "Exclude" ? new List<Employee>() : UnitOfWork.GetEmployees().ToList(); 
         var filtered = TekoDataFilter.FilterEmployees(fio, ageMin, ageMax, gender, jobTitle, department, filterOptions, UnitOfWork.GetEmployees).ToList(); 
         var identical = CompareLists(employees, filtered);
 
         // Assert 
-        Assert.True(employees.Count == ConfigHelper.EmployeeQty); 
+        Assert.True(employees.Count == expectedQty); 
         Assert.True(employees.Count == filtered.Count); 
         Assert.True(identical); 
     }

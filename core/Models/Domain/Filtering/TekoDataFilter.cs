@@ -61,6 +61,7 @@ public class TekoDataFilter : ITekoDataFilter
         }
         else 
         {
+            // Retrieve data using the specified filter 
             result = getEmployees(x => x.BirthDate >= dateMin && x.BirthDate <= dateMax); 
             if (!string.IsNullOrEmpty(fio))
                 result = result.Where(x => x.FIO.Contains(fio)); 
@@ -70,6 +71,15 @@ public class TekoDataFilter : ITekoDataFilter
                 result = result.Where(x => x.JobTitle.ToString() == jobTitle); 
             if (!string.IsNullOrEmpty(department))
                 result = result.Where(x => x.Department.ToString() == department); 
+            
+            // Retrive date using exclude filter 
+            if (filterOptions == StringHelper.FindFilterOptionsExcludeEmployee)
+            {
+                var excludeList = getEmployees(x => true); 
+                foreach (var item in result)
+                    excludeList = excludeList.Where(x => x.FIO != item.FIO).ToList(); 
+                return excludeList; 
+            }
         }
         return result; 
     }
@@ -103,7 +113,7 @@ public class TekoDataFilter : ITekoDataFilter
         }
         else
         {
-            employees = FilterEmployees(fio, ageMin, ageMax, gender, jobTitle, department, filterOptions, getEmployees).ToList(); 
+            employees = FilterEmployees(fio, ageMin, ageMax, gender, jobTitle, department, "", getEmployees).ToList(); 
         }
 
         // Get vacations using filter 

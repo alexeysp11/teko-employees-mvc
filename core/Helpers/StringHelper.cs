@@ -42,9 +42,25 @@ public static class StringHelper
     /// </summary>
     public readonly static string NoFiltersApplied = "No filters applied"; 
     /// <summary>
+    /// Options for showing filtered elements on the Employees page 
+    /// </summary>
+    public readonly static string FindFilterOptionsShowEmployee = "Show employee"; 
+    /// <summary>
+    /// Options for excluding filtered elements on the Employees page 
+    /// </summary>
+    public readonly static string FindFilterOptionsExcludeEmployee = "Exclude employee"; 
+    /// <summary>
     /// 
     /// </summary>
-    public readonly static string FindOnlyIntersections = "Find only intersections"; 
+    public readonly static string FindFilterOptionsShowAllFilteredVacations = "Find all filtered vacations"; 
+    /// <summary>
+    /// 
+    /// </summary>
+    public readonly static string FindFilterOptionsShowIntersections = "Show intersections"; 
+    /// <summary>
+    /// 
+    /// </summary>
+    public readonly static string FindFilterOptionsExcludeIntersections = "Exclude intersections"; 
     #endregion  // Filter options
 
     #region Public methods 
