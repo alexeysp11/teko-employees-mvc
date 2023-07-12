@@ -100,12 +100,10 @@ public class UnitOfWork : IUnitOfWork
         return VacationRepository.Get(filter: filter).ToList(); 
     }
     /// <summary>
-    /// 
+    /// Inserts vacation for the specified user 
     /// </summary>
     public void InsertVacation(string fio, System.DateTime begin, System.DateTime end)
     {
-        System.Console.WriteLine("Insert the vacation for the specified employee");
-
         // Find employee 
         var employees = EmployeeRepository.Get(filter: x => x.FIO == fio).ToList(); 
         if (employees.Count == 0) 

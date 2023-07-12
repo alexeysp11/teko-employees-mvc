@@ -60,6 +60,16 @@ public class HomeController : Controller
         return View(vacations);
     }
 
+    public IActionResult Managing()
+    {
+        return View(); 
+    }
+
+    public IActionResult NewVacation()
+    {
+        return View(); 
+    }
+
     [HttpPost("[action]")]
     [Route("/Home")]
     public IActionResult FilterEmployees(string fio, string ageMin, string ageMax, string gender, string jobTitle, string department, 
@@ -99,6 +109,13 @@ public class HomeController : Controller
         TempData[StringHelper.FilterOptionsVacationsStr] = filterOptions; 
 
         return RedirectToAction("Vacations");
+    }
+
+    public IActionResult AddNewVaction(string fio, System.DateTime beginDate, System.DateTime endDate)
+    {
+        if (endDate > beginDate && (endDate - beginDate).Days <= 14)
+            _unitOfWork.InsertVacation(fio ?? string.Empty, beginDate, endDate); 
+        return RedirectToAction("Vacations"); 
     }
 
     public IActionResult Privacy()

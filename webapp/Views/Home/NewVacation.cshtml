@@ -1,0 +1,19 @@
+@{
+    ViewData["Title"] = "New Vacation Page";
+    var jobTitles = System.Enum.GetValues(typeof(TekoEmployeesMvc.Models.JobTitle)); 
+    var departments = System.Enum.GetValues(typeof(TekoEmployeesMvc.Models.Department)); 
+}
+
+<div class="text-center">
+    <h1 class="display-4">New vacation</h1>
+
+    <form method="post" asp-controller="Home" asp-action="AddNewVaction" role="post"> 
+        <label>FIO: </label>
+        <input type="text" placeholder="Enter FIO" name="fio">
+        <label>Begin date: </label>
+        <input type="date" name="beginDate">
+        <label>End date: </label>
+        <input type="date" name="endDate">
+        <input type="submit" value="Add new vacation" class="btn btn-primary" />
+    </form>
+</div>
