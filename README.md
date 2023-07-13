@@ -10,7 +10,7 @@ Read this in other languages: [English](README.md), [Russian/Русский](REA
 4. Display information about vacation crossings according to the criteria:
     - Crossing vacations with employees of my department. Employees under 30 years of age.
     - Vacation crossing with female employees not from my department. Age of employees - over 30, but under 50.
-    - Vacation crossing with employees of my department from any department. Employees are over 50 years old.
+    - Vacation crossing with employees from any department. Employees are over 50 years old.
     - Vacations without crossing.
 5. It is desirable to use LINQ, lambda expressions.
 6. It is desirable to choose the most efficient algorithm for determining intersections.
