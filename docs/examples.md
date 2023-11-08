@@ -1,4 +1,6 @@
-# Examples 
+# examples 
+
+[English](examples.md) | [Русский](examples.ru.md)
 
 Crossing vacations with employees of my department. Employees under 30 years of age: 
 

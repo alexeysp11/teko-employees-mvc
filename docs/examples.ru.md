@@ -1,4 +1,6 @@
-# Examples 
+# examples 
+
+[English](examples.md) | [Русский](examples.ru.md)
 
 Пересечение отпусков с сотрудниками моего отдела. Сотрудники до 30 лет:
 
