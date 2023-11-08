@@ -7,4 +7,3 @@ Crossing vacations with employees of my department. Employees under 30 years of 
 Vacation crossing with female employees not from my department. Age of employees - over 30, but under 50: 
 
 ![vacations_female_30to50yo_notmydepartment](img/vacations_female_30to50yo_notmydepartment.png)
-
